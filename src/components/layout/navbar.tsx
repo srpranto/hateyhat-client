@@ -45,16 +45,25 @@ export function Navbar() {
         <div className="flex items-center gap-8">
           <Link
             href="/"
-            className="text-xl sm:text-2xl font-bold tracking-tight text-foreground hover:opacity-90 font-heading flex items-center gap-2 group"
+            className="flex items-center gap-2.5 group"
           >
-            <span className="size-2 rounded-full bg-primary group-hover:scale-125 transition-transform" />
-            <span>{SITE_NAME}</span>
+            <div className="size-8 rounded-xl bg-primary/15 text-primary flex items-center justify-center font-bold text-xs ring-1 ring-primary/30 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
+              হ
+            </div>
+            <div className="flex flex-col">
+              <span className="text-lg sm:text-xl font-bold tracking-tight text-foreground font-heading leading-tight">
+                {SITE_NAME}
+              </span>
+              <span className="text-[10px] text-muted-foreground font-serif leading-none tracking-wide">
+                হাতে হাত
+              </span>
+            </div>
           </Link>
           <nav className="hidden md:flex items-center gap-2">
             <Link
               href="/events"
               className={cn(
-                "px-3.5 py-1.5 rounded-full text-sm font-medium transition-all duration-150",
+                "px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-150",
                 isEventsActive
                   ? "bg-primary/15 text-foreground font-semibold ring-1 ring-primary/30"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
@@ -66,6 +75,20 @@ export function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center gap-3">
+          {session && (
+            <Link
+              href="/create-event"
+              className={buttonVariants({
+                variant: "outline",
+                size: "sm",
+                className:
+                  "h-9 px-3.5 border-border rounded-xl text-xs font-semibold flex items-center gap-1.5 hover:bg-muted active:scale-[0.97] transition-all",
+              })}
+            >
+              <CalendarPlus className="size-3.5 text-primary" />
+              <span>Host Event</span>
+            </Link>
+          )}
           <ThemeToggle />
           {isPending ? (
             <Skeleton className="h-9 w-20 rounded-lg" />
@@ -78,7 +101,7 @@ export function Navbar() {
                 className={buttonVariants({
                   variant: "ghost",
                   size: "sm",
-                  className: "text-muted-foreground hover:text-foreground font-medium",
+                  className: "text-muted-foreground hover:text-foreground font-semibold text-xs",
                 })}
               >
                 Login
@@ -89,7 +112,7 @@ export function Navbar() {
                   variant: "default",
                   size: "sm",
                   className:
-                    "bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.96] transition-transform font-medium shadow-xs",
+                    "h-9 px-4 bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.97] transition-all font-semibold text-xs shadow-xs rounded-xl",
                 })}
               >
                 Register

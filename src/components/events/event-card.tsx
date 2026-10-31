@@ -4,40 +4,43 @@ import type { EventItem } from "@/types/event";
 import { EventThumbnail } from "./event-thumbnail";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
-import { CalendarDays, MapPin } from "lucide-react";
+import { CalendarDays, MapPin, ArrowRight } from "lucide-react";
 
 export function EventCard({ event }: { event: EventItem }) {
   const formattedDate = formatEventDate(event.eventDate);
 
   return (
-    <div className="group flex flex-col h-full rounded-xl border border-border/80 bg-card overflow-hidden shadow-xs hover:border-primary/40 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
-      <EventThumbnail src={event.thumbnail} alt={event.title} />
-      <div className="flex flex-col flex-1 p-5">
-        <div className="flex items-center justify-between gap-2 mb-3">
+    <article className="group flex flex-col h-full rounded-2xl border border-border/80 bg-card overflow-hidden shadow-xs hover:border-primary/50 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300">
+      <div className="relative">
+        <EventThumbnail src={event.thumbnail} alt={event.title} />
+        <div className="absolute top-3 left-3">
           <Badge
             variant="secondary"
-            className="text-xs font-medium bg-primary/10 text-primary border border-primary/20 rounded-full px-2.5 py-0.5"
+            className="text-xs font-semibold bg-background/90 backdrop-blur-md text-foreground border border-border/80 shadow-xs rounded-full px-3 py-1"
           >
             {event.eventType}
           </Badge>
-          <div className="flex items-center gap-1.5 text-xs text-muted-foreground tabular-nums">
-            <CalendarDays className="size-3.5 text-primary shrink-0" />
-            <span>{formattedDate}</span>
-          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col flex-1 p-5 sm:p-6">
+        <div className="flex items-center gap-2 text-xs text-muted-foreground tabular-nums mb-2.5">
+          <CalendarDays className="size-3.5 text-primary shrink-0" />
+          <span className="font-medium text-foreground/80">{formattedDate}</span>
         </div>
 
-        <h3 className="text-lg font-semibold text-foreground line-clamp-2 mb-2 font-heading group-hover:text-primary transition-colors">
+        <h3 className="text-lg sm:text-xl font-bold text-foreground line-clamp-2 mb-2 font-heading group-hover:text-primary transition-colors leading-snug">
           {event.title}
         </h3>
 
-        <p className="text-xs text-muted-foreground line-clamp-2 mb-4 leading-relaxed">
+        <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 mb-5 leading-relaxed text-pretty">
           {event.description}
         </p>
 
-        <div className="mt-auto pt-4 border-t border-border/70 flex items-center justify-between gap-2">
-          <div className="flex items-center gap-1.5 text-xs text-muted-foreground truncate max-w-[60%]">
+        <div className="mt-auto pt-4 border-t border-border/70 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-1.5 text-xs text-muted-foreground truncate max-w-[62%]">
             <MapPin className="size-3.5 text-primary shrink-0" />
-            <span className="truncate">{event.location}</span>
+            <span className="truncate font-medium">{event.location}</span>
           </div>
 
           <Link
@@ -46,13 +49,14 @@ export function EventCard({ event }: { event: EventItem }) {
               variant: "default",
               size: "sm",
               className:
-                "bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.96] transition-transform text-xs rounded-lg shadow-xs",
+                "h-9 px-3.5 bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.97] transition-all text-xs font-semibold rounded-lg shadow-xs flex items-center gap-1.5 shrink-0",
             })}
           >
-            View Event
+            <span>Details</span>
+            <ArrowRight className="size-3.5 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>
       </div>
-    </div>
+    </article>
   );
 }

@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { LoginForm } from "@/components/auth/login-form";
-import { SITE_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: `Login | ${SITE_NAME}`,
+  title: "Login",
   description: "Sign in to your HateyHat account to organize and join community events.",
 };
 

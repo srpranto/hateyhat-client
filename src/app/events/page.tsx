@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import { getEvents } from "@/lib/api";
-import { EventGrid } from "@/components/events/event-grid";
+import { EventsExplorer } from "@/components/events/events-explorer";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { EmptyState } from "@/components/shared/empty-state";
 import { ErrorState } from "@/components/shared/error-state";
-import { SITE_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: `Upcoming Events | ${SITE_NAME}`,
+  title: "Upcoming Events",
   description: "Browse social development initiatives, winter clothes drives, and cleanups happening soon in Dhaka.",
 };
 
@@ -15,12 +14,12 @@ export default async function EventsPage() {
   const res = await getEvents();
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <div className="mb-8">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="mb-10 max-w-3xl">
         <SectionHeading
           badge="Community Initiatives"
           title="Upcoming Social Events"
-          subtitle="Explore grassroots causes organized by residents across Dhaka. Find an event to join or lend a helping hand."
+          subtitle="Explore grassroots causes organized by residents across Dhaka. Search, filter by cause type, or sort by date to find an initiative to join."
         />
       </div>
 
@@ -37,7 +36,7 @@ export default async function EventsPage() {
           actionHref="/create-event"
         />
       ) : (
-        <EventGrid events={res.data} />
+        <EventsExplorer initialEvents={res.data} />
       )}
     </div>
   );

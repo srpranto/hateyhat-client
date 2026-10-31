@@ -280,3 +280,43 @@ export async function getJoinedEvents(token: string): Promise<ApiResult<EventIte
     };
   }
 }
+
+export async function cancelJoinEvent(
+  id: string,
+  token: string
+): Promise<ApiResult<{ message: string }>> {
+  try {
+    const res = await fetch(
+      `${API_BASE_URL}/events/${encodeURIComponent(id)}/join`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const body = (await res.json().catch(() => null)) as {
+      message?: string;
+    } | null;
+    if (!res.ok) {
+      return {
+        ok: false,
+        status: res.status,
+        message: body?.message || "Failed to cancel RSVP.",
+      };
+    }
+    return {
+      ok: true,
+      data: {
+        message: body?.message || "RSVP cancelled successfully.",
+      },
+    };
+  } catch {
+    return {
+      ok: false,
+      status: 0,
+      message: "Network error. Failed to connect to server.",
+    };
+  }
+}
+

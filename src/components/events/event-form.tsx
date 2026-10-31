@@ -224,10 +224,13 @@ export function EventForm({
         </div>
       </div>
 
-      <div className="space-y-1.5">
-        <Label htmlFor="event-thumbnail" className="text-sm font-medium">
-          Thumbnail URL
-        </Label>
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <Label htmlFor="event-thumbnail" className="text-sm font-medium">
+            Thumbnail Image URL
+          </Label>
+          <span className="text-[11px] text-muted-foreground">Direct image link (jpg, png, webp)</span>
+        </div>
         <Input
           id="event-thumbnail"
           type="url"
@@ -242,6 +245,29 @@ export function EventForm({
         {errors.thumbnail && (
           <p className="text-xs text-destructive mt-1 font-medium">{errors.thumbnail}</p>
         )}
+
+        <div className="flex items-center gap-1.5 flex-wrap pt-1">
+          <span className="text-[11px] text-muted-foreground mr-1">Presets:</span>
+          {[
+            { label: "Tree Plantation", url: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1200&q=80" },
+            { label: "Cleanup", url: "https://images.unsplash.com/photo-1618477461853-cf6ed80faba5?auto=format&fit=crop&w=1200&q=80" },
+            { label: "Winter Clothes", url: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=80" },
+            { label: "Food Drive", url: "https://images.unsplash.com/photo-1593113646773-028c64a8f1b8?auto=format&fit=crop&w=1200&q=80" },
+            { label: "Health Camp", url: "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=1200&q=80" },
+          ].map((preset) => (
+            <button
+              type="button"
+              key={preset.label}
+              onClick={() => {
+                setFormData((prev) => ({ ...prev, thumbnail: preset.url }));
+                setErrors((prev) => ({ ...prev, thumbnail: undefined }));
+              }}
+              className="px-2 py-0.5 rounded-md text-[11px] bg-muted/80 hover:bg-primary/10 hover:text-primary border border-border/70 transition-colors cursor-pointer"
+            >
+              {preset.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="space-y-1.5">

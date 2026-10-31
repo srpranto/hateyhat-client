@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { ManageEventsList } from "@/components/events/manage-events-list";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { SITE_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: `Manage Events | ${SITE_NAME}`,
+  title: "Manage Events",
   description: "View, update, or delete the community events you have organized.",
 };
 

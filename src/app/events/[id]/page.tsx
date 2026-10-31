@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getEventById } from "@/lib/api";
 import { formatEventDate } from "@/lib/date";
-import { SITE_NAME } from "@/lib/constants";
 import { EventThumbnail } from "@/components/events/event-thumbnail";
 import { JoinEventButton } from "@/components/events/join-event-button";
+import { ShareEventButton } from "@/components/events/share-event-button";
 import { Badge } from "@/components/ui/badge";
-import { CalendarDays, MapPin } from "lucide-react";
+import { CalendarDays, MapPin, ArrowLeft, ShieldCheck, HeartHandshake, User } from "lucide-react";
 
 export async function generateMetadata({
   params,
@@ -17,11 +18,11 @@ export async function generateMetadata({
   const res = await getEventById(id);
   if (!res.ok) {
     return {
-      title: `Event Not Found | ${SITE_NAME}`,
+      title: "Event Not Found",
     };
   }
   return {
-    title: `${res.data.title} | ${SITE_NAME}`,
+    title: res.data.title,
     description: res.data.description.slice(0, 160),
   };
 }
@@ -42,60 +43,131 @@ export default async function EventDetailsPage({
   const formattedDate = formatEventDate(event.eventDate);
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10 max-w-4xl">
-      <div className="rounded-2xl overflow-hidden border border-border/80 shadow-md mb-8">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10 max-w-5xl">
+      <div className="mb-6">
+        <Link
+          href="/events"
+          className="inline-flex items-center gap-2 text-xs font-semibold text-muted-foreground hover:text-foreground active:scale-[0.98] transition-all"
+        >
+          <ArrowLeft className="size-3.5 text-primary" />
+          <span>Back to all community initiatives</span>
+        </Link>
+      </div>
+
+      <div className="rounded-3xl overflow-hidden border border-border/80 shadow-xl mb-10 ring-1 ring-black/5 dark:ring-white/10">
         <EventThumbnail
           src={event.thumbnail}
           alt={event.title}
-          aspectClassName="aspect-21/9"
+          aspectClassName="aspect-16/9 sm:aspect-21/9"
         />
       </div>
 
-      <div className="space-y-6">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <Badge
-            variant="secondary"
-            className="text-xs px-3.5 py-1 font-medium rounded-full bg-primary/10 text-primary border border-primary/25"
-          >
-            {event.eventType}
-          </Badge>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-muted/80 text-foreground border border-border/80 tabular-nums">
-            <CalendarDays className="size-3.5 text-primary" />
-            <span>{formattedDate}</span>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        <div className="lg:col-span-8 space-y-8">
+          <div className="space-y-4">
+            <div className="flex flex-wrap items-center gap-3">
+              <Badge
+                variant="secondary"
+                className="text-xs px-3.5 py-1 font-semibold rounded-full bg-primary/10 text-primary border border-primary/25"
+              >
+                {event.eventType}
+              </Badge>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-muted text-foreground border border-border/80 tabular-nums">
+                <CalendarDays className="size-3.5 text-primary" />
+                <span>{formattedDate}</span>
+              </div>
+            </div>
+
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-foreground tracking-tight text-balance leading-tight">
+              {event.title}
+            </h1>
+
+            <div className="flex items-center gap-2 text-muted-foreground text-sm sm:text-base font-medium">
+              <MapPin className="size-4 text-primary shrink-0" />
+              <span>{event.location}</span>
+            </div>
+          </div>
+
+          <div className="border-t border-b border-border/70 py-8 space-y-4">
+            <h2 className="text-xl font-bold font-heading text-foreground">
+              About this community initiative
+            </h2>
+            <div className="text-muted-foreground text-sm sm:text-base leading-relaxed whitespace-pre-line text-pretty">
+              {event.description}
+            </div>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-muted/40 border border-border/70 space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="size-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+                <HeartHandshake className="size-5" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold font-heading text-foreground">
+                  Volunteer Notice & Ground Logistics
+                </h3>
+                <p className="text-xs text-muted-foreground">
+                  Organized by local neighborhood leaders in Dhaka
+                </p>
+              </div>
+            </div>
+            <ul className="text-xs text-muted-foreground space-y-2 leading-relaxed">
+              <li className="flex items-start gap-2">
+                <span className="text-primary font-bold">•</span>
+                <span>Please arrive 15 minutes before scheduled start for team briefing and volunteer role assignments.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary font-bold">•</span>
+                <span>Water, gloves, and relief supplies are arranged at the landmark pickup location.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary font-bold">•</span>
+                <span>Dress comfortably for outdoor field activities.</span>
+              </li>
+            </ul>
           </div>
         </div>
 
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-heading text-foreground tracking-tight text-balance leading-tight">
-          {event.title}
-        </h1>
+        <div className="lg:col-span-4 sticky top-24 space-y-5">
+          <div className="p-6 rounded-2xl bg-card border border-border/80 shadow-lg space-y-6">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-primary">
+                Volunteer RSVP
+              </span>
+              <h3 className="text-lg font-bold font-heading text-foreground mt-1">
+                Confirm Your Attendance
+              </h3>
+              <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
+                Join hands with your neighbours. Your presence helps organizers arrange exact supplies and volunteers.
+              </p>
+            </div>
 
-        <div className="flex items-center gap-2 text-muted-foreground text-sm sm:text-base">
-          <MapPin className="size-4 text-primary shrink-0" />
-          <span>{event.location}</span>
-        </div>
+            <div className="pt-2">
+              <JoinEventButton
+                eventId={event._id}
+                eventDate={event.eventDate}
+              />
+            </div>
 
-        <div className="border-t border-b border-border/80 py-8 my-6">
-          <h2 className="text-xl font-semibold font-heading mb-3 text-foreground">
-            About this initiative
-          </h2>
-          <div className="max-w-none text-muted-foreground whitespace-pre-line leading-relaxed text-pretty text-sm sm:text-base">
-            {event.description}
+            <div className="pt-4 border-t border-border/70">
+              <ShareEventButton title={event.title} />
+            </div>
+
+            <div className="pt-4 border-t border-border/70 flex items-center gap-2 text-[11px] text-muted-foreground">
+              <ShieldCheck className="size-4 text-primary shrink-0" />
+              <span>100% Free grassroots initiative. No hidden fees or dues.</span>
+            </div>
           </div>
-        </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 p-6 sm:p-8 rounded-2xl bg-card border border-border/80 shadow-sm">
-          <div>
-            <h3 className="text-lg font-semibold text-foreground font-heading">
-              Ready to take part?
-            </h3>
-            <p className="text-sm text-muted-foreground mt-1">
-              Confirm your presence to coordinate with organizers and fellow volunteers.
-            </p>
+          <div className="p-5 rounded-2xl bg-card border border-border/80 shadow-xs flex items-center gap-3.5">
+            <div className="size-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs ring-1 ring-primary/20 shrink-0">
+              <User className="size-4" />
+            </div>
+            <div className="truncate text-left">
+              <p className="text-[11px] text-muted-foreground uppercase font-semibold">Organized by</p>
+              <p className="text-xs font-bold text-foreground truncate">{event.creatorEmail}</p>
+            </div>
           </div>
-          <JoinEventButton
-            eventId={event._id}
-            eventDate={event.eventDate}
-          />
         </div>
       </div>
     </div>

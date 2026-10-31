@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getToken } from "@/lib/get-token";
 import { getMyEvents } from "@/lib/api";
@@ -9,6 +10,7 @@ import { ManageEventCard } from "./manage-event-card";
 import { EmptyState } from "@/components/shared/empty-state";
 import { ErrorState } from "@/components/shared/error-state";
 import { Skeleton } from "@/components/ui/skeleton";
+import { buttonVariants } from "@/components/ui/button";
 import { toast } from "sonner";
 
 export function ManageEventsList() {
@@ -130,15 +132,39 @@ export function ManageEventsList() {
   }
 
   return (
-    <div className="space-y-4">
-      {events.map((event) => (
-        <ManageEventCard
-          key={event._id}
-          event={event}
-          onUpdated={handleUpdated}
-          onDeleted={handleDeleted}
-        />
-      ))}
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 rounded-2xl bg-card border border-border/80 shadow-xs">
+        <div>
+          <h3 className="text-sm font-bold font-heading text-foreground">
+            Organizer Overview
+          </h3>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            You are managing <span className="font-semibold text-primary tabular-nums">{events.length}</span> community initiative{events.length === 1 ? "" : "s"}.
+          </p>
+        </div>
+        <Link
+          href="/create-event"
+          className={buttonVariants({
+            variant: "default",
+            size: "sm",
+            className:
+              "h-10 px-5 bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.97] transition-all text-xs font-semibold rounded-xl flex items-center gap-2 shadow-xs",
+          })}
+        >
+          <span>Host Another Initiative</span>
+        </Link>
+      </div>
+
+      <div className="space-y-4">
+        {events.map((event) => (
+          <ManageEventCard
+            key={event._id}
+            event={event}
+            onUpdated={handleUpdated}
+            onDeleted={handleDeleted}
+          />
+        ))}
+      </div>
     </div>
   );
 }

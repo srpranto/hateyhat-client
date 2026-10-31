@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { RegisterForm } from "@/components/auth/register-form";
-import { SITE_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: `Register | ${SITE_NAME}`,
+  title: "Register",
   description: "Create a HateyHat account to organize and join community development events.",
 };
 
