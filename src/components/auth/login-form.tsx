@@ -6,7 +6,7 @@ import { useState, useEffect, type FormEvent } from "react";
 import { signIn } from "@/lib/auth-client";
 import { validateLoginInput } from "@/lib/validation";
 import type { LoginFormErrors } from "@/types/event";
-import { GOOGLE_LOGIN_KEY, AUTH_TOAST_KEY } from "@/components/layout/social-login-toast";
+import { GOOGLE_LOGIN_KEY } from "@/components/layout/social-login-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -84,12 +84,11 @@ export function LoginForm() {
       }
 
       if (typeof window !== "undefined") {
-        sessionStorage.setItem(AUTH_TOAST_KEY, "Welcome back to HateyHat!");
         window.dispatchEvent(new Event("auth-session-change"));
-        window.location.href = new URL(redirectUrl, window.location.origin).toString();
-      } else {
-        router.push(redirectUrl);
       }
+      toast.success("Welcome back to HateyHat!");
+      router.push(redirectUrl);
+      router.refresh();
     } catch {
       toast.error("An error occurred during login. Please try again.");
       setLoading(false);

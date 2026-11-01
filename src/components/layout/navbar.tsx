@@ -7,7 +7,6 @@ import { SITE_NAME } from "@/lib/constants";
 import { useSession, signOut } from "@/lib/auth-client";
 import { ThemeToggle } from "./theme-toggle";
 import { UserMenu } from "./user-menu";
-import { AUTH_TOAST_KEY } from "./social-login-toast";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -74,14 +73,11 @@ export function Navbar() {
       setMobileOpen(false);
       await signOut();
       if (typeof window !== "undefined") {
-        sessionStorage.setItem(AUTH_TOAST_KEY, "You have been logged out.");
         window.dispatchEvent(new Event("auth-session-change"));
-        window.location.href = window.location.origin;
-      } else {
-        toast.success("You have been logged out.");
-        router.push("/");
-        router.refresh();
       }
+      toast.success("You have been logged out.");
+      router.push("/");
+      router.refresh();
     } catch {
       toast.error("Failed to log out. Please try again.");
     }

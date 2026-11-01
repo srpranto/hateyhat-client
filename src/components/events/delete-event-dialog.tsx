@@ -49,6 +49,7 @@ export function DeleteEventDialog({
       if (res.ok) {
         toast.success("Event deleted successfully.");
         onDeleted(eventId);
+        router.refresh();
         setOpen(false);
       } else if (res.status === 401) {
         toast.error(res.message);

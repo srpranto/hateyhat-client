@@ -104,6 +104,7 @@ export function JoinedEventsList() {
       if (res.ok) {
         setEvents((prev) => prev.filter((item) => item._id !== eventId));
         toast.success(`Cancelled attendance sign-up for "${title}".`);
+        router.refresh();
       } else if (res.status === 401) {
         toast.error(res.message);
         router.push("/login?redirect=%2Fjoined-events");

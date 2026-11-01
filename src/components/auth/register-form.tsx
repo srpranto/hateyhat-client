@@ -7,7 +7,7 @@ import { signUp, signIn } from "@/lib/auth-client";
 import { validateRegisterInput, normalizeImageUrl } from "@/lib/validation";
 import { getDefaultAvatar } from "@/lib/avatar";
 import type { RegisterFormErrors } from "@/types/event";
-import { GOOGLE_LOGIN_KEY, AUTH_TOAST_KEY } from "@/components/layout/social-login-toast";
+import { GOOGLE_LOGIN_KEY } from "@/components/layout/social-login-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -96,12 +96,11 @@ export function RegisterForm() {
       }
 
       if (typeof window !== "undefined") {
-        sessionStorage.setItem(AUTH_TOAST_KEY, "Welcome to HateyHat! Account registered successfully.");
         window.dispatchEvent(new Event("auth-session-change"));
-        window.location.href = new URL(redirectUrl, window.location.origin).toString();
-      } else {
-        router.push(redirectUrl);
       }
+      toast.success("Welcome to HateyHat! Account registered successfully.");
+      router.push(redirectUrl);
+      router.refresh();
     } catch {
       toast.error("An error occurred during registration. Please try again.");
       setLoading(false);

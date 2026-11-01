@@ -29,6 +29,7 @@ export function CreateEventForm() {
       if (res.ok) {
         toast.success("Community initiative published successfully!");
         router.push("/events");
+        router.refresh();
       } else if (res.status === 401) {
         toast.error(res.message);
         router.push("/login?redirect=%2Fcreate-event");

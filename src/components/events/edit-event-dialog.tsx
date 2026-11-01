@@ -52,6 +52,7 @@ export function EditEventDialog({ event, onUpdated }: EditEventDialogProps) {
       if (res.ok) {
         toast.success("Event updated successfully.");
         onUpdated(res.data.event);
+        router.refresh();
         setOpen(false);
       } else if (res.status === 401) {
         toast.error(res.message);

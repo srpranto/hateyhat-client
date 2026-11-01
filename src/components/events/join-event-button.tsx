@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSession } from "@/lib/auth-client";
 import { getToken } from "@/lib/get-token";
@@ -22,6 +22,7 @@ export function JoinEventButton({
   isInitiallyJoined = false,
 }: JoinEventButtonProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const { data: session } = useSession();
   const [joined, setJoined] = useState(isInitiallyJoined);
   const [loading, setLoading] = useState(false);
@@ -58,10 +59,7 @@ export function JoinEventButton({
   }
 
   const getLoginRedirectUrl = () => {
-    const currentPath =
-      typeof window !== "undefined"
-        ? window.location.pathname + window.location.search
-        : `/events/${eventId}`;
+    const currentPath = pathname || `/events/${eventId}`;
     return `/login?redirect=${encodeURIComponent(currentPath)}`;
   };
 
@@ -88,6 +86,7 @@ export function JoinEventButton({
       if (res.ok) {
         setJoined(false);
         toast.success("Your RSVP has been cancelled.");
+        router.refresh();
       } else if (res.status === 401) {
         toast.error(res.message);
         router.push(getLoginRedirectUrl());
@@ -124,6 +123,7 @@ export function JoinEventButton({
       if (res.ok) {
         setJoined(true);
         toast.success("Successfully joined the initiative! See you there.");
+        router.refresh();
       } else if (res.status === 409) {
         setJoined(true);
         toast.info("You have already joined this event.");
