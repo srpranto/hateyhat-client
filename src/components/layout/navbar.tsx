@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SITE_NAME } from "@/lib/constants";
 import { useSession, signOut } from "@/lib/auth-client";
 import { ThemeToggle } from "./theme-toggle";
 import { UserMenu } from "./user-menu";
+import { AUTH_TOAST_KEY } from "./social-login-toast";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -23,8 +24,48 @@ import { cn } from "cn";
 export function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
-  const { data: session, isPending } = useSession();
+  const { data: session, isPending, refetch } = useSession();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    const handleAuthUpdate = () => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        void refetch();
+        router.refresh();
+      }, 50);
+    };
+    if (typeof window !== "undefined") {
+      window.addEventListener("auth-session-change", handleAuthUpdate);
+      window.addEventListener("storage", handleAuthUpdate);
+      window.addEventListener("focus", handleAuthUpdate);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+      if (typeof window !== "undefined") {
+        window.removeEventListener("auth-session-change", handleAuthUpdate);
+        window.removeEventListener("storage", handleAuthUpdate);
+        window.removeEventListener("focus", handleAuthUpdate);
+      }
+    };
+  }, [refetch, router]);
+
+  const currentRedirectTarget =
+    pathname &&
+    pathname !== "/" &&
+    !pathname.startsWith("/login") &&
+    !pathname.startsWith("/register")
+      ? pathname
+      : null;
+
+  const loginHref = currentRedirectTarget
+    ? `/login?redirect=${encodeURIComponent(currentRedirectTarget)}`
+    : "/login";
+
+  const registerHref = currentRedirectTarget
+    ? `/register?redirect=${encodeURIComponent(currentRedirectTarget)}`
+    : "/register";
 
   const isEventsActive = pathname === "/events";
 
@@ -32,8 +73,15 @@ export function Navbar() {
     try {
       setMobileOpen(false);
       await signOut();
-      toast.success("You have been logged out.");
-      router.push("/");
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem(AUTH_TOAST_KEY, "You have been logged out.");
+        window.dispatchEvent(new Event("auth-session-change"));
+        window.location.href = window.location.origin;
+      } else {
+        toast.success("You have been logged out.");
+        router.push("/");
+        router.refresh();
+      }
     } catch {
       toast.error("Failed to log out. Please try again.");
     }
@@ -97,7 +145,7 @@ export function Navbar() {
           ) : (
             <div className="flex items-center gap-2">
               <Link
-                href="/login"
+                href={loginHref}
                 className={buttonVariants({
                   variant: "ghost",
                   size: "sm",
@@ -107,7 +155,7 @@ export function Navbar() {
                 Login
               </Link>
               <Link
-                href="/register"
+                href={registerHref}
                 className={buttonVariants({
                   variant: "default",
                   size: "sm",
@@ -253,7 +301,7 @@ export function Navbar() {
                 ) : (
                   <div className="flex flex-col gap-2">
                     <Link
-                      href="/login"
+                      href={loginHref}
                       onClick={() => setMobileOpen(false)}
                       className={buttonVariants({
                         variant: "default",
@@ -263,7 +311,7 @@ export function Navbar() {
                       Login
                     </Link>
                     <Link
-                      href="/register"
+                      href={registerHref}
                       onClick={() => setMobileOpen(false)}
                       className={buttonVariants({
                         variant: "outline",

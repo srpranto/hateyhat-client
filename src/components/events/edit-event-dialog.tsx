@@ -43,7 +43,7 @@ export function EditEventDialog({ event, onUpdated }: EditEventDialogProps) {
       const token = await getToken();
       if (!token) {
         toast.error("Your session has expired. Please log in again.");
-        router.push("/login");
+        router.push("/login?redirect=%2Fmanage-events");
         setSubmitting(false);
         return;
       }
@@ -55,7 +55,7 @@ export function EditEventDialog({ event, onUpdated }: EditEventDialogProps) {
         setOpen(false);
       } else if (res.status === 401) {
         toast.error(res.message);
-        router.push("/login");
+        router.push("/login?redirect=%2Fmanage-events");
       } else {
         toast.error(res.message);
       }

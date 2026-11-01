@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState, type FormEvent } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useState, useEffect, type FormEvent } from "react";
 import { signIn } from "@/lib/auth-client";
 import { validateLoginInput } from "@/lib/validation";
 import type { LoginFormErrors } from "@/types/event";
-import { GOOGLE_LOGIN_KEY } from "@/components/layout/social-login-toast";
+import { GOOGLE_LOGIN_KEY, AUTH_TOAST_KEY } from "@/components/layout/social-login-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,12 +18,46 @@ import { Loader2, Eye, EyeOff, HeartHandshake } from "lucide-react";
 
 export function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const rawRedirect =
+    searchParams.get("redirect") ||
+    searchParams.get("callbackUrl") ||
+    searchParams.get("redirectTo");
+  const redirectUrl =
+    rawRedirect &&
+    rawRedirect.startsWith("/") &&
+    !rawRedirect.startsWith("/login") &&
+    !rawRedirect.startsWith("/register")
+      ? rawRedirect
+      : "/";
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<LoginFormErrors>({});
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+
+  useEffect(() => {
+    const error = searchParams.get("error");
+    const errorDescription = searchParams.get("error_description");
+    if (error) {
+      if (typeof window !== "undefined") {
+        sessionStorage.removeItem(GOOGLE_LOGIN_KEY);
+      }
+      let msg = "Google sign in could not be completed.";
+      if (error === "access_denied") {
+        msg = "Google sign-in was cancelled or access was denied.";
+      } else if (error === "account_not_linked") {
+        msg = "An account with this email already exists. Please sign in with your email and password.";
+      } else if (error === "email_not_found") {
+        msg = "No email address was returned by Google.";
+      } else if (errorDescription) {
+        msg = errorDescription;
+      }
+      toast.error(msg);
+    }
+  }, [searchParams]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,8 +83,13 @@ export function LoginForm() {
         return;
       }
 
-      toast.success("Welcome back to HateyHat!");
-      router.push("/");
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem(AUTH_TOAST_KEY, "Welcome back to HateyHat!");
+        window.dispatchEvent(new Event("auth-session-change"));
+        window.location.href = new URL(redirectUrl, window.location.origin).toString();
+      } else {
+        router.push(redirectUrl);
+      }
     } catch {
       toast.error("An error occurred during login. Please try again.");
       setLoading(false);
@@ -63,9 +102,17 @@ export function LoginForm() {
       if (typeof window !== "undefined") {
         sessionStorage.setItem(GOOGLE_LOGIN_KEY, "true");
       }
+      const origin = typeof window !== "undefined" ? window.location.origin : "";
+      const absoluteCallbackUrl = origin ? new URL(redirectUrl, origin).toString() : redirectUrl;
+      const errorUrl =
+        redirectUrl && redirectUrl !== "/"
+          ? `/login?redirect=${encodeURIComponent(redirectUrl)}`
+          : "/login";
+      const absoluteErrorUrl = origin ? new URL(errorUrl, origin).toString() : errorUrl;
       await signIn.social({
         provider: "google",
-        callbackURL: "/",
+        callbackURL: absoluteCallbackUrl,
+        errorCallbackURL: absoluteErrorUrl,
       });
     } catch {
       if (typeof window !== "undefined") {
@@ -173,7 +220,14 @@ export function LoginForm() {
       <CardFooter className="justify-center border-t border-border/70 p-5 bg-muted/20">
         <p className="text-xs text-muted-foreground">
           Don&apos;t have an account yet?{" "}
-          <Link href="/register" className="text-primary font-bold hover:underline">
+          <Link
+            href={
+              redirectUrl && redirectUrl !== "/"
+                ? `/register?redirect=${encodeURIComponent(redirectUrl)}`
+                : "/register"
+            }
+            className="text-primary font-bold hover:underline"
+          >
             Register here
           </Link>
         </p>

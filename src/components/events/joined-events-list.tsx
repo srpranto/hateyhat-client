@@ -30,7 +30,7 @@ export function JoinedEventsList() {
       const token = await getToken();
       if (!token) {
         toast.error("Your session has expired. Please log in again.");
-        router.push("/login");
+        router.push("/login?redirect=%2Fjoined-events");
         setLoading(false);
         return;
       }
@@ -40,7 +40,7 @@ export function JoinedEventsList() {
         setEvents(res.data);
       } else if (res.status === 401) {
         toast.error(res.message);
-        router.push("/login");
+        router.push("/login?redirect=%2Fjoined-events");
       } else {
         setError(res.message);
       }
@@ -58,7 +58,7 @@ export function JoinedEventsList() {
         const token = await getToken();
         if (ignore) return;
         if (!token) {
-          router.push("/login");
+          router.push("/login?redirect=%2Fjoined-events");
           return;
         }
 
@@ -68,7 +68,7 @@ export function JoinedEventsList() {
           setEvents(res.data);
         } else if (res.status === 401) {
           toast.error(res.message);
-          router.push("/login");
+          router.push("/login?redirect=%2Fjoined-events");
         } else {
           setError(res.message);
         }
@@ -95,7 +95,7 @@ export function JoinedEventsList() {
       const token = await getToken();
       if (!token) {
         toast.error("Your session has expired. Please log in again.");
-        router.push("/login");
+        router.push("/login?redirect=%2Fjoined-events");
         setCancellingId(null);
         return;
       }
@@ -103,15 +103,15 @@ export function JoinedEventsList() {
       const res = await cancelJoinEvent(eventId, token);
       if (res.ok) {
         setEvents((prev) => prev.filter((item) => item._id !== eventId));
-        toast.success(`Cancelled RSVP for "${title}".`);
+        toast.success(`Cancelled attendance sign-up for "${title}".`);
       } else if (res.status === 401) {
         toast.error(res.message);
-        router.push("/login");
+        router.push("/login?redirect=%2Fjoined-events");
       } else {
         toast.error(res.message);
       }
     } catch {
-      toast.error("Could not cancel RSVP. Please try again.");
+      toast.error("Could not cancel attendance sign-up. Please try again.");
     } finally {
       setCancellingId(null);
     }
@@ -210,7 +210,7 @@ export function JoinedEventsList() {
                       ) : (
                         <>
                           <XCircle className="size-3.5 mr-1" />
-                          <span>Cancel RSVP</span>
+                          <span>Cancel Sign-up</span>
                         </>
                       )}
                     </Button>

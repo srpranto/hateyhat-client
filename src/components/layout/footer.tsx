@@ -104,7 +104,7 @@ export function Footer() {
               <a
                 href="https://facebook.com"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 aria-label="Facebook"
                 className="flex items-center justify-center size-9 rounded-xl bg-muted/80 hover:text-primary hover:bg-primary/10 transition-colors"
               >
@@ -113,7 +113,7 @@ export function Footer() {
               <a
                 href="https://x.com"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 aria-label="X"
                 className="flex items-center justify-center size-9 rounded-xl bg-muted/80 hover:text-primary hover:bg-primary/10 transition-colors"
               >
@@ -122,7 +122,7 @@ export function Footer() {
               <a
                 href="https://instagram.com"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 aria-label="Instagram"
                 className="flex items-center justify-center size-9 rounded-xl bg-muted/80 hover:text-primary hover:bg-primary/10 transition-colors"
               >
@@ -131,7 +131,7 @@ export function Footer() {
               <a
                 href="https://linkedin.com"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 aria-label="LinkedIn"
                 className="flex items-center justify-center size-9 rounded-xl bg-muted/80 hover:text-primary hover:bg-primary/10 transition-colors"
               >
@@ -143,7 +143,7 @@ export function Footer() {
 
         <div className="border-t border-border/70 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
           <p>{`© ${currentYear} ${SITE_NAME}. All rights reserved.`}</p>
-          <p>Built for the people of Dhaka with Next.js App Router & Express.</p>
+          <p>Dedicated to grassroots civic community action across Dhaka.</p>
         </div>
       </div>
     </footer>

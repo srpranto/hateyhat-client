@@ -20,7 +20,7 @@ export function CreateEventForm() {
       const token = await getToken();
       if (!token) {
         toast.error("Your session has expired. Please log in again.");
-        router.push("/login");
+        router.push("/login?redirect=%2Fcreate-event");
         setSubmitting(false);
         return;
       }
@@ -31,7 +31,7 @@ export function CreateEventForm() {
         router.push("/events");
       } else if (res.status === 401) {
         toast.error(res.message);
-        router.push("/login");
+        router.push("/login?redirect=%2Fcreate-event");
       } else {
         toast.error(res.message);
       }
@@ -73,7 +73,7 @@ export function CreateEventForm() {
         </div>
         <div className="flex items-start gap-2.5">
           <Users className="size-4 text-primary shrink-0 mt-0.5" />
-          <span>All upcoming initiatives are immediately visible across the Dhaka community calendar for citizens to RSVP.</span>
+          <span>All upcoming initiatives are immediately visible across the Dhaka community calendar for citizens to sign up and volunteer.</span>
         </div>
       </div>
     </div>

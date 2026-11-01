@@ -31,7 +31,7 @@ const FEATURES = [
     step: "04",
     icon: BookmarkCheck,
     title: "Your civic portfolio",
-    description: "Stay organized with a unified timeline of all community actions you have committed to attend, with easy RSVP management.",
+    description: "Stay organized with a unified timeline of all community actions you have committed to attend, with easy attendance and volunteer schedule management.",
     href: "/joined-events",
     action: "View joined events",
   },

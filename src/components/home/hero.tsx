@@ -92,7 +92,7 @@ export function Hero() {
                 src="/hero.jpg"
                 alt="Community volunteers organizing relief supplies together in Dhaka"
                 fill
-                priority
+                preload
                 sizes="(max-width: 1024px) 100vw, 40vw"
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />

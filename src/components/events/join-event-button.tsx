@@ -8,7 +8,7 @@ import { getJoinedEvents, joinEvent, cancelJoinEvent } from "@/lib/api";
 import { isUpcomingDhakaDate } from "@/lib/date";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Check, Loader2, XCircle } from "lucide-react";
+import { Check, Loader2, UserPlus, XCircle } from "lucide-react";
 
 interface JoinEventButtonProps {
   eventId: string;
@@ -51,17 +51,25 @@ export function JoinEventButton({
 
   if (!isUpcoming) {
     return (
-      <Button disabled variant="outline" className="w-full sm:w-auto cursor-not-allowed rounded-xl h-11 px-6">
-        Event ended
+      <Button disabled variant="outline" className="w-full cursor-not-allowed rounded-xl h-11 px-6 text-xs font-semibold bg-muted/50 text-muted-foreground border-border/80 flex items-center justify-center gap-2">
+        Initiative concluded
       </Button>
     );
   }
+
+  const getLoginRedirectUrl = () => {
+    const currentPath =
+      typeof window !== "undefined"
+        ? window.location.pathname + window.location.search
+        : `/events/${eventId}`;
+    return `/login?redirect=${encodeURIComponent(currentPath)}`;
+  };
 
   const handleCancelRsvp = async () => {
     if (loading || cancelling) return;
     if (!session) {
       toast.error("Please log in to manage your RSVP.");
-      router.push("/login");
+      router.push(getLoginRedirectUrl());
       return;
     }
 
@@ -71,7 +79,7 @@ export function JoinEventButton({
       const token = await getToken();
       if (!token) {
         toast.error("Your session has expired. Please log in again.");
-        router.push("/login");
+        router.push(getLoginRedirectUrl());
         setCancelling(false);
         return;
       }
@@ -82,7 +90,7 @@ export function JoinEventButton({
         toast.success("Your RSVP has been cancelled.");
       } else if (res.status === 401) {
         toast.error(res.message);
-        router.push("/login");
+        router.push(getLoginRedirectUrl());
       } else {
         toast.error(res.message);
       }
@@ -97,7 +105,7 @@ export function JoinEventButton({
     if (loading || cancelling) return;
     if (!session) {
       toast.error("Please log in to join this event.");
-      router.push("/login");
+      router.push(getLoginRedirectUrl());
       return;
     }
 
@@ -107,7 +115,7 @@ export function JoinEventButton({
       const token = await getToken();
       if (!token) {
         toast.error("Your session has expired or is invalid. Please log in again.");
-        router.push("/login");
+        router.push(getLoginRedirectUrl());
         setLoading(false);
         return;
       }
@@ -121,7 +129,7 @@ export function JoinEventButton({
         toast.info("You have already joined this event.");
       } else if (res.status === 401) {
         toast.error(res.message);
-        router.push("/login");
+        router.push(getLoginRedirectUrl());
       } else {
         toast.error(res.message);
       }
@@ -134,26 +142,26 @@ export function JoinEventButton({
 
   if (joined) {
     return (
-      <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/10 border border-primary/20 text-foreground text-xs font-semibold">
-          <Check className="size-4 text-primary" />
-          <span>You are attending</span>
+      <div className="flex flex-col gap-2.5 w-full">
+        <div className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-primary/10 border border-primary/20 text-primary text-xs font-semibold">
+          <Check className="size-4 text-primary shrink-0" />
+          <span>You are registered to attend</span>
         </div>
         <Button
           variant="outline"
           onClick={handleCancelRsvp}
           disabled={loading || cancelling}
-          className="w-full sm:w-auto rounded-xl text-xs h-11 px-5 border-destructive/30 text-destructive hover:bg-destructive/10 active:scale-[0.97] transition-all"
+          className="w-full rounded-xl text-xs h-10 border-destructive/30 text-destructive hover:bg-destructive/10 active:scale-[0.98] transition-all font-medium flex items-center justify-center gap-1.5"
         >
           {cancelling ? (
             <>
-              <Loader2 className="size-3.5 animate-spin mr-1.5" />
-              <span>Cancelling...</span>
+              <Loader2 className="size-3.5 animate-spin" />
+              <span>Cancelling reservation...</span>
             </>
           ) : (
             <>
-              <XCircle className="size-3.5 mr-1.5" />
-              <span>Cancel RSVP</span>
+              <XCircle className="size-3.5" />
+              <span>Cancel Attendance (RSVP)</span>
             </>
           )}
         </Button>
@@ -165,16 +173,20 @@ export function JoinEventButton({
     <Button
       onClick={handleJoin}
       disabled={loading || cancelling}
-      className="w-full sm:w-auto bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.97] transition-all font-semibold h-11 px-8 rounded-xl shadow-md shadow-primary/20"
+      className="w-full bg-primary text-primary-foreground hover:bg-primary/90 active:scale-[0.98] transition-all font-semibold h-11 px-6 rounded-xl shadow-md shadow-primary/20 flex items-center justify-center gap-2 text-sm"
     >
       {loading ? (
         <>
-          <Loader2 className="size-4 animate-spin mr-2" />
-          Joining...
+          <Loader2 className="size-4 animate-spin" />
+          <span>Joining Event...</span>
         </>
       ) : (
-        "Join This Initiative"
+        <>
+          <UserPlus className="size-4 shrink-0" />
+          <span>Join Event</span>
+        </>
       )}
     </Button>
   );
 }
+

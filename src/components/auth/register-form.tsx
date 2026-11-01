@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState, type FormEvent } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useState, useEffect, type FormEvent } from "react";
 import { signUp, signIn } from "@/lib/auth-client";
-import { validateRegisterInput } from "@/lib/validation";
+import { validateRegisterInput, normalizeImageUrl } from "@/lib/validation";
+import { getDefaultAvatar } from "@/lib/avatar";
 import type { RegisterFormErrors } from "@/types/event";
-import { GOOGLE_LOGIN_KEY } from "@/components/layout/social-login-toast";
+import { GOOGLE_LOGIN_KEY, AUTH_TOAST_KEY } from "@/components/layout/social-login-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,10 +15,23 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Separator } from "@/components/ui/separator";
 import { GoogleLogo } from "@/components/icons/google-logo";
 import { toast } from "sonner";
-import { Loader2, Eye, EyeOff, HeartHandshake } from "lucide-react";
+import { Loader2, Eye, EyeOff, HeartHandshake, Check, Circle } from "lucide-react";
 
 export function RegisterForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const rawRedirect =
+    searchParams.get("redirect") ||
+    searchParams.get("callbackUrl") ||
+    searchParams.get("redirectTo");
+  const redirectUrl =
+    rawRedirect &&
+    rawRedirect.startsWith("/") &&
+    !rawRedirect.startsWith("/login") &&
+    !rawRedirect.startsWith("/register")
+      ? rawRedirect
+      : "/";
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [photoURL, setPhotoURL] = useState("");
@@ -26,6 +40,32 @@ export function RegisterForm() {
   const [errors, setErrors] = useState<RegisterFormErrors>({});
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+
+  useEffect(() => {
+    const error = searchParams.get("error");
+    const errorDescription = searchParams.get("error_description");
+    if (error) {
+      if (typeof window !== "undefined") {
+        sessionStorage.removeItem(GOOGLE_LOGIN_KEY);
+      }
+      let msg = "Google sign up could not be completed.";
+      if (error === "access_denied") {
+        msg = "Google sign-in was cancelled or access was denied.";
+      } else if (error === "account_not_linked") {
+        msg = "An account with this email already exists. Please log in with your email and password.";
+      } else if (error === "email_not_found") {
+        msg = "No email address was returned by Google.";
+      } else if (errorDescription) {
+        msg = errorDescription;
+      }
+      toast.error(msg);
+    }
+  }, [searchParams]);
+
+  const hasMinLength = password.length >= 6;
+  const hasUppercase = /[A-Z]/.test(password);
+  const hasLowercase = /[a-z]/.test(password);
+  const criteriaMetCount = (hasMinLength ? 1 : 0) + (hasUppercase ? 1 : 0) + (hasLowercase ? 1 : 0);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,10 +80,12 @@ export function RegisterForm() {
     setLoading(true);
 
     try {
+      const normalizedPhoto = normalizeImageUrl(photoURL);
+      const avatarUrl = normalizedPhoto || getDefaultAvatar(name.trim());
       const result = await signUp.email({
         name: name.trim(),
         email: email.trim(),
-        image: photoURL.trim(),
+        image: avatarUrl,
         password,
       });
 
@@ -53,8 +95,13 @@ export function RegisterForm() {
         return;
       }
 
-      toast.success("Welcome to HateyHat! Account registered successfully.");
-      router.push("/");
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem(AUTH_TOAST_KEY, "Welcome to HateyHat! Account registered successfully.");
+        window.dispatchEvent(new Event("auth-session-change"));
+        window.location.href = new URL(redirectUrl, window.location.origin).toString();
+      } else {
+        router.push(redirectUrl);
+      }
     } catch {
       toast.error("An error occurred during registration. Please try again.");
       setLoading(false);
@@ -67,9 +114,17 @@ export function RegisterForm() {
       if (typeof window !== "undefined") {
         sessionStorage.setItem(GOOGLE_LOGIN_KEY, "true");
       }
+      const origin = typeof window !== "undefined" ? window.location.origin : "";
+      const absoluteCallbackUrl = origin ? new URL(redirectUrl, origin).toString() : redirectUrl;
+      const errorUrl =
+        redirectUrl && redirectUrl !== "/"
+          ? `/register?redirect=${encodeURIComponent(redirectUrl)}`
+          : "/register";
+      const absoluteErrorUrl = origin ? new URL(errorUrl, origin).toString() : errorUrl;
       await signIn.social({
         provider: "google",
-        callbackURL: "/",
+        callbackURL: absoluteCallbackUrl,
+        errorCallbackURL: absoluteErrorUrl,
       });
     } catch {
       if (typeof window !== "undefined") {
@@ -158,9 +213,9 @@ export function RegisterForm() {
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
               <Label htmlFor="register-photo" className="text-sm font-medium">
-                Profile Photo URL
+                Profile Photo URL (Optional)
               </Label>
-              <span className="text-[11px] text-muted-foreground">Direct image link (jpg, png)</span>
+              <span className="text-[11px] text-muted-foreground">Optional image link</span>
             </div>
             <Input
               id="register-photo"
@@ -196,7 +251,7 @@ export function RegisterForm() {
             </div>
           </div>
 
-          <div className="space-y-1.5">
+          <div className="space-y-2">
             <Label htmlFor="register-password" className="text-sm font-medium">
               Password
             </Label>
@@ -205,7 +260,7 @@ export function RegisterForm() {
                 id="register-password"
                 type={showPassword ? "text" : "password"}
                 autoComplete="new-password"
-                placeholder="At least 6 characters"
+                placeholder="At least 6 characters, uppercase & lowercase"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={loading || googleLoading}
@@ -214,12 +269,86 @@ export function RegisterForm() {
               <button
                 type="button"
                 onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-1"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-1 transition-colors"
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
               </button>
             </div>
+
+            {password.length > 0 && (
+              <div className="space-y-2 pt-1">
+                <div className="grid grid-cols-3 gap-1.5 h-1.5 w-full">
+                  <div
+                    className={`h-full rounded-full transition-all duration-300 ${
+                      criteriaMetCount >= 1
+                        ? criteriaMetCount === 1
+                          ? "bg-destructive"
+                          : criteriaMetCount === 2
+                          ? "bg-amber-500"
+                          : "bg-emerald-500"
+                        : "bg-muted"
+                    }`}
+                  />
+                  <div
+                    className={`h-full rounded-full transition-all duration-300 ${
+                      criteriaMetCount >= 2
+                        ? criteriaMetCount === 2
+                          ? "bg-amber-500"
+                          : "bg-emerald-500"
+                        : "bg-muted"
+                    }`}
+                  />
+                  <div
+                    className={`h-full rounded-full transition-all duration-300 ${
+                      criteriaMetCount === 3 ? "bg-emerald-500" : "bg-muted"
+                    }`}
+                  />
+                </div>
+
+                <div className="p-3 rounded-xl bg-muted/40 border border-border/60 space-y-1.5 text-xs">
+                  <div
+                    className={`flex items-center gap-2 transition-colors ${
+                      hasMinLength ? "text-emerald-600 dark:text-emerald-400 font-semibold" : "text-muted-foreground"
+                    }`}
+                  >
+                    {hasMinLength ? (
+                      <Check className="size-3.5 shrink-0 text-emerald-600 dark:text-emerald-400" />
+                    ) : (
+                      <Circle className="size-3.5 shrink-0 opacity-40" />
+                    )}
+                    <span>At least 6 characters</span>
+                  </div>
+
+                  <div
+                    className={`flex items-center gap-2 transition-colors ${
+                      hasUppercase ? "text-emerald-600 dark:text-emerald-400 font-semibold" : "text-muted-foreground"
+                    }`}
+                  >
+                    {hasUppercase ? (
+                      <Check className="size-3.5 shrink-0 text-emerald-600 dark:text-emerald-400" />
+                    ) : (
+                      <Circle className="size-3.5 shrink-0 opacity-40" />
+                    )}
+                    <span>At least one uppercase letter (A-Z)</span>
+                  </div>
+
+                  <div
+                    className={`flex items-center gap-2 transition-colors ${
+                      hasLowercase ? "text-emerald-600 dark:text-emerald-400 font-semibold" : "text-muted-foreground"
+                    }`}
+                  >
+                    {hasLowercase ? (
+                      <Check className="size-3.5 shrink-0 text-emerald-600 dark:text-emerald-400" />
+                    ) : (
+                      <Circle className="size-3.5 shrink-0 opacity-40" />
+                    )}
+                    <span>At least one lowercase letter (a-z)</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {errors.password && (
               <p className="text-xs text-destructive mt-1 font-medium">{errors.password}</p>
             )}
@@ -237,7 +366,14 @@ export function RegisterForm() {
       <CardFooter className="justify-center border-t border-border/70 p-5 bg-muted/20">
         <p className="text-xs text-muted-foreground">
           Already have an account?{" "}
-          <Link href="/login" className="text-primary font-bold hover:underline">
+          <Link
+            href={
+              redirectUrl && redirectUrl !== "/"
+                ? `/login?redirect=${encodeURIComponent(redirectUrl)}`
+                : "/login"
+            }
+            className="text-primary font-bold hover:underline"
+          >
             Log in here
           </Link>
         </p>

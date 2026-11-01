@@ -17,6 +17,75 @@ export function isValidUrl(urlStr: string): boolean {
   }
 }
 
+export function isValidImageSrc(src: string): boolean {
+  if (!src || typeof src !== "string") return false;
+  const trimmed = src.trim();
+  if (trimmed.startsWith("/")) return trimmed.length > 1;
+  try {
+    const url = new URL(trimmed);
+    return (url.protocol === "http:" || url.protocol === "https:") && Boolean(url.hostname);
+  } catch {
+    return false;
+  }
+}
+
+export function normalizeImageUrl(urlStr: string): string {
+  let trimmed = typeof urlStr === "string" ? urlStr.trim() : "";
+  if (!trimmed) return "";
+  trimmed = trimmed.replace(/^["']|["']$/g, "").trim();
+  if (trimmed.startsWith("/")) return trimmed;
+  if (!/^https?:\/\//i.test(trimmed)) {
+    if (trimmed.includes(".") || trimmed.startsWith("localhost")) {
+      trimmed = `https://${trimmed}`;
+    }
+  }
+  try {
+    const parsed = new URL(trimmed);
+    const host = parsed.hostname.toLowerCase();
+    if (
+      (host === "unsplash.com" || host === "www.unsplash.com") &&
+      parsed.pathname.startsWith("/photos/")
+    ) {
+      const parts = parsed.pathname.split("/").filter(Boolean);
+      if (parts.length >= 2 && parts[1] !== "download") {
+        const photoIdWithSlug = parts[1];
+        if (photoIdWithSlug.startsWith("photo-")) {
+          return `https://images.unsplash.com/${photoIdWithSlug}?auto=format&fit=crop&w=1200&q=80`;
+        }
+        const timestampMatch = photoIdWithSlug.match(/\d{10,}-[a-f0-9]+/i);
+        if (timestampMatch) {
+          return `https://images.unsplash.com/photo-${timestampMatch[0]}?auto=format&fit=crop&w=1200&q=80`;
+        }
+        const lastDashIndex = photoIdWithSlug.lastIndexOf("-");
+        const photoId = lastDashIndex !== -1 ? photoIdWithSlug.slice(lastDashIndex + 1) : photoIdWithSlug;
+        return `https://images.unsplash.com/photo-${encodeURIComponent(photoId)}?auto=format&fit=crop&w=1200&q=80`;
+      }
+    }
+    if (host === "images.unsplash.com" || host === "plus.unsplash.com") {
+      parsed.protocol = "https:";
+      if (!parsed.searchParams.has("auto")) parsed.searchParams.set("auto", "format");
+      if (!parsed.searchParams.has("fit")) parsed.searchParams.set("fit", "crop");
+      if (!parsed.searchParams.has("w")) parsed.searchParams.set("w", "1200");
+      if (!parsed.searchParams.has("q")) parsed.searchParams.set("q", "80");
+      return parsed.toString();
+    }
+    if (host === "imgur.com" || host === "www.imgur.com") {
+      const parts = parsed.pathname.split("/").filter(Boolean);
+      const imgId = parts[parts.length - 1];
+      if (imgId && /^[a-zA-Z0-9]+$/.test(imgId)) {
+        return `https://i.imgur.com/${imgId}.jpg`;
+      }
+    }
+    if (host === "github.com" && parsed.pathname.includes("/blob/")) {
+      return trimmed.replace("github.com", "raw.githubusercontent.com").replace("/blob/", "/");
+    }
+    return trimmed;
+  } catch {
+    return trimmed;
+  }
+}
+
+
 export function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 }
@@ -44,9 +113,8 @@ export function validateRegisterInput(data: {
   }
 
   const trimmedPhoto = data.photoURL.trim();
-  if (!trimmedPhoto) {
-    errors.photoURL = "Photo URL is required.";
-  } else if (!isValidUrl(trimmedPhoto)) {
+  const normalizedPhoto = normalizeImageUrl(trimmedPhoto);
+  if (trimmedPhoto && !isValidUrl(normalizedPhoto)) {
     errors.photoURL = "Photo URL must be a valid HTTP or HTTPS URL.";
   }
 
@@ -102,9 +170,8 @@ export function validateProfileInput(data: {
   }
 
   const trimmedPhoto = data.photoURL.trim();
-  if (!trimmedPhoto) {
-    errors.photoURL = "Photo URL is required.";
-  } else if (!isValidUrl(trimmedPhoto)) {
+  const normalizedPhoto = normalizeImageUrl(trimmedPhoto);
+  if (trimmedPhoto && !isValidUrl(normalizedPhoto)) {
     errors.photoURL = "Photo URL must be a valid HTTP or HTTPS URL.";
   }
 
@@ -143,9 +210,10 @@ export function validateEventFormData(
   }
 
   const trimmedThumb = data.thumbnail.trim();
+  const normalizedThumb = normalizeImageUrl(trimmedThumb);
   if (!trimmedThumb) {
     errors.thumbnail = "Thumbnail URL is required.";
-  } else if (!isValidUrl(trimmedThumb)) {
+  } else if (!isValidUrl(normalizedThumb)) {
     errors.thumbnail = "Thumbnail must be a valid HTTP or HTTPS URL.";
   }
 

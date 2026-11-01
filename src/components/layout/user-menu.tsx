@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signOut } from "@/lib/auth-client";
+import { normalizeImageUrl } from "@/lib/validation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,6 +19,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { toast } from "sonner";
+import { AUTH_TOAST_KEY } from "./social-login-toast";
 import { CalendarPlus, CalendarCheck, CalendarDays, LogOut, User } from "lucide-react";
 
 interface UserMenuProps {
@@ -34,8 +36,15 @@ export function UserMenu({ user }: UserMenuProps) {
   const handleLogout = async () => {
     try {
       await signOut();
-      toast.success("You have been logged out.");
-      router.push("/");
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem(AUTH_TOAST_KEY, "You have been logged out.");
+        window.dispatchEvent(new Event("auth-session-change"));
+        window.location.href = window.location.origin;
+      } else {
+        toast.success("You have been logged out.");
+        router.push("/");
+        router.refresh();
+      }
     } catch {
       toast.error("Failed to log out. Please try again.");
     }
@@ -65,7 +74,7 @@ export function UserMenu({ user }: UserMenuProps) {
                     aria-label={`Open user menu for ${displayName}`}
                   >
                     <Avatar className="size-9">
-                      {user.image && <AvatarImage src={user.image} alt={displayName} />}
+                      {user.image && <AvatarImage src={normalizeImageUrl(user.image)} alt={displayName} />}
                       <AvatarFallback className="bg-primary/15 text-primary font-bold text-xs">
                         {initials}
                       </AvatarFallback>

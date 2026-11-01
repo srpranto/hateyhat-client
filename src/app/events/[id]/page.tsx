@@ -59,6 +59,7 @@ export default async function EventDetailsPage({
           src={event.thumbnail}
           alt={event.title}
           aspectClassName="aspect-16/9 sm:aspect-21/9"
+          preload
         />
       </div>
 
@@ -129,31 +130,41 @@ export default async function EventDetailsPage({
         </div>
 
         <div className="lg:col-span-4 sticky top-24 space-y-5">
-          <div className="p-6 rounded-2xl bg-card border border-border/80 shadow-lg space-y-6">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-primary">
-                Volunteer RSVP
+          <div className="p-6 rounded-2xl bg-card border border-border/80 shadow-lg space-y-5">
+            <div className="space-y-2">
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-primary">
+                RSVP (Reserve Your Spot / Confirm Attendance)
               </span>
-              <h3 className="text-lg font-bold font-heading text-foreground mt-1">
-                Confirm Your Attendance
+              <h3 className="text-xl font-bold font-heading text-foreground pt-0.5">
+                Confirm Your Spot
               </h3>
-              <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
-                Join hands with your neighbours. Your presence helps organizers arrange exact supplies and volunteers.
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                <strong className="text-foreground font-semibold">What is an RSVP?</strong> It is a reservation confirming you will attend. Confirming your spot in advance helps grassroots organizers prepare exact volunteer badges, food packets, drinking water, and field supplies so everyone is accommodated smoothly.
               </p>
             </div>
 
-            <div className="pt-2">
+            <div>
               <JoinEventButton
                 eventId={event._id}
                 eventDate={event.eventDate}
               />
             </div>
 
-            <div className="pt-4 border-t border-border/70">
+            <div className="pt-3 border-t border-border/70">
               <ShareEventButton title={event.title} />
             </div>
 
-            <div className="pt-4 border-t border-border/70 flex items-center gap-2 text-[11px] text-muted-foreground">
+            <div className="rounded-xl bg-muted/40 p-3.5 border border-border/70 text-[11px] text-muted-foreground leading-relaxed space-y-1">
+              <div className="flex items-center gap-1.5 font-semibold text-foreground">
+                <ShieldCheck className="size-3.5 text-primary shrink-0" />
+                <span>Why confirming your attendance matters</span>
+              </div>
+              <p>
+                Accurate volunteer headcounts eliminate supply shortages and avoid wasted materials, keeping grassroots community actions well-organized and impactful.
+              </p>
+            </div>
+
+            <div className="pt-2 border-t border-border/70 flex items-center gap-2 text-[11px] text-muted-foreground">
               <ShieldCheck className="size-4 text-primary shrink-0" />
               <span>100% Free grassroots initiative. No hidden fees or dues.</span>
             </div>

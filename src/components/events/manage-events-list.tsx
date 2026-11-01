@@ -26,7 +26,7 @@ export function ManageEventsList() {
       const token = await getToken();
       if (!token) {
         toast.error("Your session has expired. Please log in again.");
-        router.push("/login");
+        router.push("/login?redirect=%2Fmanage-events");
         setLoading(false);
         return;
       }
@@ -36,7 +36,7 @@ export function ManageEventsList() {
         setEvents(res.data);
       } else if (res.status === 401) {
         toast.error(res.message);
-        router.push("/login");
+        router.push("/login?redirect=%2Fmanage-events");
       } else {
         setError(res.message);
       }
@@ -54,7 +54,7 @@ export function ManageEventsList() {
         const token = await getToken();
         if (ignore) return;
         if (!token) {
-          router.push("/login");
+          router.push("/login?redirect=%2Fmanage-events");
           return;
         }
 
@@ -64,7 +64,7 @@ export function ManageEventsList() {
           setEvents(res.data);
         } else if (res.status === 401) {
           toast.error(res.message);
-          router.push("/login");
+          router.push("/login?redirect=%2Fmanage-events");
         } else {
           setError(res.message);
         }

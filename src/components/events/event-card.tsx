@@ -52,7 +52,7 @@ export function EventCard({ event }: { event: EventItem }) {
                 "h-9 px-3.5 bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.97] transition-all text-xs font-semibold rounded-lg shadow-xs flex items-center gap-1.5 shrink-0",
             })}
           >
-            <span>Details</span>
+            <span>View Event</span>
             <ArrowRight className="size-3.5 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>

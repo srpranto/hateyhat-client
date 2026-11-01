@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
 import { useSession, updateUser } from "@/lib/auth-client";
-import { validateProfileInput } from "@/lib/validation";
+import { validateProfileInput, normalizeImageUrl } from "@/lib/validation";
+import { getDefaultAvatar } from "@/lib/avatar";
 import type { ProfileFormErrors } from "@/types/event";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -50,15 +51,21 @@ function ProfileFormInner({ user }: { user: UserProfileData }) {
     setSubmitting(true);
 
     try {
+      const normalizedPhoto = normalizeImageUrl(photoURL);
+      const avatarUrl = normalizedPhoto || getDefaultAvatar(name.trim());
       const res = await updateUser({
         name: name.trim(),
-        image: photoURL.trim(),
+        image: avatarUrl,
       });
 
       if (res.error) {
         toast.error(res.error.message || "Failed to update profile.");
         setSubmitting(false);
         return;
+      }
+
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new Event("auth-session-change"));
       }
 
       toast.success("Profile updated successfully.");
@@ -82,7 +89,7 @@ function ProfileFormInner({ user }: { user: UserProfileData }) {
       <CardContent className="p-6 sm:p-8 space-y-6">
         <div className="flex items-center gap-4 p-4 rounded-2xl bg-muted/40 border border-border/70">
           <Avatar className="size-20 border-2 border-primary/30 ring-2 ring-primary/10 shadow-xs">
-            {photoURL && <AvatarImage src={photoURL} alt={name || "User avatar"} />}
+            {photoURL && <AvatarImage src={normalizeImageUrl(photoURL)} alt={name || "User avatar"} />}
             <AvatarFallback className="bg-primary/15 text-primary font-bold text-lg">
               {initials}
             </AvatarFallback>
@@ -131,9 +138,12 @@ function ProfileFormInner({ user }: { user: UserProfileData }) {
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="profile-photo" className="text-sm font-medium">
-              Profile Photo URL
-            </Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="profile-photo" className="text-sm font-medium">
+                Profile Photo URL (Optional)
+              </Label>
+              <span className="text-[11px] text-muted-foreground">Optional image link</span>
+            </div>
             <Input
               id="profile-photo"
               type="url"

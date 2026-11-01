@@ -3,8 +3,9 @@
 import { useState, type FormEvent } from "react";
 import { EVENT_TYPES, isEventType } from "@/lib/constants";
 import { formatEventDate, getTomorrowDhakaDate } from "@/lib/date";
-import { validateEventFormData } from "@/lib/validation";
+import { validateEventFormData, normalizeImageUrl } from "@/lib/validation";
 import type { EventFormData, EventFormErrors } from "@/types/event";
+import { EventThumbnail } from "./event-thumbnail";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -76,19 +77,29 @@ export function EventForm({
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const validation = validateEventFormData(formData, isUpdate, existingDate);
+    const normalizedThumbnail = normalizeImageUrl(formData.thumbnail);
+    const dataToValidate: EventFormData = {
+      ...formData,
+      thumbnail: normalizedThumbnail,
+    };
+
+    const validation = validateEventFormData(dataToValidate, isUpdate, existingDate);
     if (!validation.isValid) {
       setErrors(validation.errors);
       toast.error("Please fill in all fields correctly.");
       return;
     }
 
+    if (normalizedThumbnail !== formData.thumbnail) {
+      setFormData((prev) => ({ ...prev, thumbnail: normalizedThumbnail }));
+    }
+
     setErrors({});
-    await onSubmit(formData);
+    await onSubmit(dataToValidate);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} noValidate className="space-y-5">
       <div className="space-y-1.5">
         <Label htmlFor="event-title" className="text-sm font-medium">
           Event Title
@@ -233,12 +244,23 @@ export function EventForm({
         </div>
         <Input
           id="event-thumbnail"
-          type="url"
-          placeholder="https://images.unsplash.com/photo-..."
+          type="text"
+          inputMode="url"
+          placeholder="https://images.unsplash.com/photo-... or https://unsplash.com/photos/..."
           value={formData.thumbnail}
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, thumbnail: e.target.value }))
-          }
+          onChange={(e) => {
+            const val = e.target.value;
+            setFormData((prev) => ({ ...prev, thumbnail: val }));
+            if (errors.thumbnail) {
+              setErrors((prev) => ({ ...prev, thumbnail: undefined }));
+            }
+          }}
+          onBlur={(e) => {
+            const normalized = normalizeImageUrl(e.target.value);
+            if (normalized !== e.target.value) {
+              setFormData((prev) => ({ ...prev, thumbnail: normalized }));
+            }
+          }}
           disabled={isSubmitting}
           className={errors.thumbnail ? "border-destructive focus-visible:ring-destructive" : ""}
         />
@@ -268,6 +290,24 @@ export function EventForm({
             </button>
           ))}
         </div>
+
+        {formData.thumbnail.trim() ? (
+          <div className="rounded-xl border border-border/80 overflow-hidden bg-card/60 p-3 space-y-2 mt-3">
+            <div className="flex items-center justify-between text-xs text-muted-foreground">
+              <span className="font-semibold text-foreground">Live Thumbnail Preview</span>
+              <span className="text-[10px] text-muted-foreground truncate max-w-[240px] tabular-nums">
+                {formData.thumbnail}
+              </span>
+            </div>
+            <div className="relative rounded-lg overflow-hidden border border-border/60 aspect-video max-h-52 bg-muted/60">
+              <EventThumbnail
+                src={normalizeImageUrl(formData.thumbnail)}
+                alt="Live event thumbnail preview"
+                aspectClassName="aspect-video"
+              />
+            </div>
+          </div>
+        ) : null}
       </div>
 
       <div className="space-y-1.5">

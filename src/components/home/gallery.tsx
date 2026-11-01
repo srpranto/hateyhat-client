@@ -118,7 +118,7 @@ export function Gallery() {
           ))}
         </div>
 
-        <Dialog open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
+        <Dialog open={Boolean(selectedItem)} onOpenChange={(open) => !open && setSelectedItem(null)}>
           {selectedItem && (
             <DialogContent className="sm:max-w-xl p-0 overflow-hidden rounded-2xl border-border bg-card">
               <div className="relative aspect-16/10 w-full bg-muted">
@@ -126,6 +126,7 @@ export function Gallery() {
                   src={selectedItem.src}
                   alt={selectedItem.caption}
                   fill
+                  sizes="(max-width: 640px) 100vw, 576px"
                   className="object-cover"
                 />
               </div>

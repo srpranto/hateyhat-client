@@ -15,16 +15,14 @@ export async function getEvents(limit?: number): Promise<ApiResult<EventItem[]>>
       : `${API_BASE_URL}/events`;
     const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) {
-      const errorJson = (await res.json().catch(() => null)) as {
-        message?: string;
-      } | null;
+      const errorJson: { message?: string } | null = await res.json().catch(() => null);
       return {
         ok: false,
         status: res.status,
         message: errorJson?.message || "Failed to fetch events.",
       };
     }
-    const data = (await res.json()) as EventItem[];
+    const data: EventItem[] = await res.json();
     return { ok: true, data };
   } catch {
     return {
@@ -41,16 +39,14 @@ export async function getEventById(id: string): Promise<ApiResult<EventItem>> {
       cache: "no-store",
     });
     if (!res.ok) {
-      const errorJson = (await res.json().catch(() => null)) as {
-        message?: string;
-      } | null;
+      const errorJson: { message?: string } | null = await res.json().catch(() => null);
       return {
         ok: false,
         status: res.status,
         message: errorJson?.message || "Failed to fetch event.",
       };
     }
-    const data = (await res.json()) as EventItem;
+    const data: EventItem = await res.json();
     return { ok: true, data };
   } catch {
     return {
@@ -74,11 +70,11 @@ export async function createEvent(
       },
       body: JSON.stringify(data),
     });
-    const body = (await res.json().catch(() => null)) as {
+    const body: {
       message?: string;
       eventId?: string;
       errors?: Record<string, string>;
-    } | null;
+    } | null = await res.json().catch(() => null);
     if (!res.ok) {
       return {
         ok: false,
@@ -112,16 +108,14 @@ export async function getMyEvents(token: string): Promise<ApiResult<EventItem[]>
       cache: "no-store",
     });
     if (!res.ok) {
-      const errorJson = (await res.json().catch(() => null)) as {
-        message?: string;
-      } | null;
+      const errorJson: { message?: string } | null = await res.json().catch(() => null);
       return {
         ok: false,
         status: res.status,
         message: errorJson?.message || "Failed to fetch your events.",
       };
     }
-    const data = (await res.json()) as EventItem[];
+    const data: EventItem[] = await res.json();
     return { ok: true, data };
   } catch {
     return {
@@ -146,11 +140,11 @@ export async function updateEvent(
       },
       body: JSON.stringify(data),
     });
-    const body = (await res.json().catch(() => null)) as {
+    const body: {
       message?: string;
       event?: EventItem;
       errors?: Record<string, string>;
-    } | null;
+    } | null = await res.json().catch(() => null);
     if (!res.ok || !body?.event) {
       return {
         ok: false,
@@ -186,10 +180,10 @@ export async function deleteEvent(
         Authorization: `Bearer ${token}`,
       },
     });
-    const body = (await res.json().catch(() => null)) as {
+    const body: {
       message?: string;
       deletedId?: string;
-    } | null;
+    } | null = await res.json().catch(() => null);
     if (!res.ok) {
       return {
         ok: false,
@@ -227,9 +221,9 @@ export async function joinEvent(
         },
       }
     );
-    const body = (await res.json().catch(() => null)) as {
+    const body: {
       message?: string;
-    } | null;
+    } | null = await res.json().catch(() => null);
     if (!res.ok) {
       return {
         ok: false,
@@ -261,16 +255,14 @@ export async function getJoinedEvents(token: string): Promise<ApiResult<EventIte
       cache: "no-store",
     });
     if (!res.ok) {
-      const errorJson = (await res.json().catch(() => null)) as {
-        message?: string;
-      } | null;
+      const errorJson: { message?: string } | null = await res.json().catch(() => null);
       return {
         ok: false,
         status: res.status,
         message: errorJson?.message || "Failed to fetch joined events.",
       };
     }
-    const data = (await res.json()) as EventItem[];
+    const data: EventItem[] = await res.json();
     return { ok: true, data };
   } catch {
     return {
@@ -295,9 +287,9 @@ export async function cancelJoinEvent(
         },
       }
     );
-    const body = (await res.json().catch(() => null)) as {
+    const body: {
       message?: string;
-    } | null;
+    } | null = await res.json().catch(() => null);
     if (!res.ok) {
       return {
         ok: false,
