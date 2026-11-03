@@ -1,27 +1,35 @@
 # HateyHat
 
+A community-driven social development and event management platform where people in Dhaka can organize, discover, and join local social service initiatives.
+
+- **Live Application**: [https://hateyhat-client.vercel.app](https://hateyhat-client.vercel.app)
+- **Live Server API**: [https://hateyhat-server.vercel.app](https://hateyhat-server.vercel.app)
+
+---
+
 ## About the Project
 
-HateyHat is a community social development platform created for neighborhoods across Dhaka. The Bengali phrase means hand in hand. The goal of this platform is to bring local people together to solve everyday community issues. Many people want to help their neighbors by giving warm winter clothes, cleaning up streets, planting trees, or sharing hot meals, but they do not have a simple place to organize these activities. HateyHat provides that space. Anyone can start a meaningful initiative on their street or join an event started by someone nearby.
+HateyHat (হাতে হাত — *hand in hand*) brings local people together to solve everyday neighborhood challenges across Dhaka. From distributing warm winter clothes and blankets to cleaning up streets, planting trees, and organizing blood donation camps, HateyHat gives active citizens and volunteers an organized, transparent space to turn good intentions into real local impact.
 
-The application allows residents to take collective action in a transparent and organized way. Organizers post all event logistics including the neighborhood location, the date, and detailed instructions. Community members browse upcoming activities and volunteer with a single click. By connecting active citizens with people who want to help, HateyHat turns good intentions into real neighborhood impact.
+---
 
 ## Core Features
 
-* Neighborhood Event Creation: Any registered member can organize a local social initiative such as winter clothes drives, tree plantation programs, blood donation camps, food distribution, or neighborhood cleanups with full location details and future dates.
+- **Neighborhood Event Creation**: Any registered user can organize community service events (Cleanups, Tree Plantations, Winter Clothes Drives, Blood Donations, Food Distribution) with location details, thumbnail, and future date validation.
+- **One-Click Volunteering**: Community members can browse all upcoming initiatives in their area and join with a single click.
+- **Recent Upcoming Events Showcase**: Displays the latest 6 upcoming community initiatives directly from the database on a clean responsive grid.
+- **Personal Volunteer Dashboard**: Keeps track of all events you have joined so you never miss a community commitment.
+- **Organizer Event Management**: Event creators can edit event details or cancel their events from a dedicated management panel.
+- **Secure Authentication**: Email & password authentication with password strength rules, plus one-click Google OAuth login.
+- **Light & Dark Theme**: Built-in instant theme switcher for comfortable viewing in both day and night modes.
 
-* One Click Volunteering: Citizens can browse all upcoming initiatives in their area and sign up instantly to confirm their participation without filling out complicated paperwork.
+---
 
-* Personal Event Dashboard: Volunteers have a dedicated space to view every initiative they joined, sorted by date, so they can keep track of their schedule and upcoming commitments.
+## Tech Stack
 
-* Autonomous Event Management: Event creators have complete control over the activities they host, allowing them to edit event details or cancel an event whenever plans change.
-
-* Secure Account Access: Members can register using their name, email, photo, and password, or quickly sign in through their Google account with persistent sessions that keep them logged in across visits.
-
-* Modern Theme Switching: The interface includes an instant theme toggle so visitors can switch between comfortable light and dark reading modes based on their preference.
-
-* Verified Data Security: Every event modification and deletion is protected by secure token verification, ensuring that creators only ever manage their own events.
-
-## What Visitors Can Experience
-
-Visitors can explore the home page to discover recent initiatives across Dhaka, view community photographs of past volunteer work, read clear descriptions of local drives, and join the platform to make a positive difference in their society.
+- **Framework**: Next.js (React)
+- **Styling**: Tailwind CSS
+- **Icons & UI**: Lucide React, Sonner (toast notifications)
+- **Authentication**: Better Auth (Email/Password & Google OAuth)
+- **State & Data Fetching**: SWR & Native Fetch
+- **Deployment**: Vercel
