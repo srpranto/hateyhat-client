@@ -66,7 +66,7 @@ export function UserMenu({ user }: UserMenuProps) {
                 render={
                   <button
                     type="button"
-                    className="size-9 rounded-full ring-2 ring-border/80 hover:ring-primary/50 focus:outline-hidden focus:ring-2 focus:ring-primary transition-all cursor-pointer overflow-hidden"
+                    className="size-9 rounded-full ring-2 ring-border/80 hover:ring-primary/50 focus:outline-hidden focus:ring-2 focus:ring-primary transition-[ring-color,box-shadow,transform] duration-200 ease-out active:scale-95 cursor-pointer overflow-hidden"
                     aria-label={`Open user menu for ${displayName}`}
                   >
                     <Avatar className="size-9">
@@ -138,7 +138,7 @@ export function UserMenu({ user }: UserMenuProps) {
         variant="ghost"
         size="sm"
         onClick={handleLogout}
-        className="inline-flex text-muted-foreground hover:text-foreground text-xs rounded-lg"
+        className="inline-flex text-muted-foreground hover:text-foreground text-xs rounded-lg transition-colors duration-150 ease-out"
       >
         Logout
       </Button>

@@ -59,7 +59,7 @@ export function EventThumbnail({
         unoptimized={unoptimized}
         referrerPolicy="no-referrer"
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        className="object-cover transition-transform duration-300 group-hover:scale-105"
+        className="object-cover transition-[filter,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03] group-hover:brightness-[1.02]"
         onError={() => setFailedSrc(normalizedSrc)}
       />
     </div>

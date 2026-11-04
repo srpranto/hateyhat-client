@@ -14,7 +14,7 @@ export default function ProfilePage() {
         <SectionHeading
           badge="Account"
           title="Profile Settings"
-          subtitle="Manage your personal information and profile picture displayed across community drives."
+          subtitle="Manage your name and profile picture displayed across HateyHat."
         />
       </div>
       <ProfileForm />

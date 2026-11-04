@@ -123,8 +123,8 @@ export function ManageEventsList() {
   if (events.length === 0) {
     return (
       <EmptyState
-        title="No events hosted yet"
-        description="You have not created any events yet. Organize a local drive, cleanup, or health camp to get started."
+        title="No events created yet"
+        description="You haven't created any events yet. Organize a local drive, cleanup, or health camp to get started."
         actionLabel="Create Event"
         actionHref="/create-event"
       />
@@ -136,10 +136,10 @@ export function ManageEventsList() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 rounded-2xl bg-card border border-border/80 shadow-xs">
         <div>
           <h3 className="text-sm font-bold font-heading text-foreground">
-            Organizer Overview
+            Your Events
           </h3>
           <p className="text-xs text-muted-foreground mt-0.5">
-            You are managing <span className="font-semibold text-primary tabular-nums">{events.length}</span> community initiative{events.length === 1 ? "" : "s"}.
+            You have created <span className="font-semibold text-primary tabular-nums">{events.length}</span> event{events.length === 1 ? "" : "s"}.
           </p>
         </div>
         <Link
@@ -148,10 +148,10 @@ export function ManageEventsList() {
             variant: "default",
             size: "sm",
             className:
-              "h-10 px-5 bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.97] transition-all text-xs font-semibold rounded-xl flex items-center gap-2 shadow-xs",
+              "h-10 px-5 bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.96] transition-[background-color,opacity,transform] duration-200 ease-out text-xs font-semibold rounded-xl flex items-center gap-2 shadow-xs",
           })}
         >
-          <span>Host Another Initiative</span>
+          <span>Create Event</span>
         </Link>
       </div>
 

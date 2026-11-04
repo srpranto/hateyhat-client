@@ -80,10 +80,10 @@ function ProfileFormInner({ user }: { user: UserProfileData }) {
     <Card className="max-w-xl mx-auto shadow-lg border-border/80 bg-card rounded-3xl overflow-hidden">
       <CardHeader className="space-y-1 p-6 sm:p-8 bg-muted/30 border-b border-border/70">
         <CardTitle className="text-2xl font-bold font-heading text-foreground">
-          Volunteer Profile Settings
+          Profile Settings
         </CardTitle>
         <CardDescription className="text-sm text-muted-foreground leading-relaxed">
-          Manage your account information and avatar displayed across community drives and volunteer rosters.
+          Update your name and photo displayed across HateyHat.
         </CardDescription>
       </CardHeader>
       <CardContent className="p-6 sm:p-8 space-y-6">
@@ -96,11 +96,11 @@ function ProfileFormInner({ user }: { user: UserProfileData }) {
           </Avatar>
           <div className="truncate">
             <h3 className="font-bold text-foreground text-lg truncate font-heading">
-              {name || "HateyHat Volunteer"}
+              {name || "HateyHat Member"}
             </h3>
             <p className="text-xs text-muted-foreground truncate">{user.email}</p>
             <p className="text-xs text-primary font-semibold mt-1">
-              Active Community Member
+              Active Member
             </p>
           </div>
         </div>
@@ -170,7 +170,7 @@ function ProfileFormInner({ user }: { user: UserProfileData }) {
                     setPhotoURL(av.url);
                     setErrors((prev) => ({ ...prev, photoURL: undefined }));
                   }}
-                  className="text-[11px] px-2 py-0.5 rounded-md bg-muted/80 hover:bg-primary/10 hover:text-primary border border-border/70 transition-colors cursor-pointer"
+                  className="text-[11px] px-2.5 py-1 rounded-md bg-muted/80 hover:bg-primary/10 hover:text-primary hover:border-primary/40 active:scale-95 border border-border/70 transition-all duration-150 cursor-pointer font-medium"
                 >
                   {av.label}
                 </button>
@@ -181,7 +181,7 @@ function ProfileFormInner({ user }: { user: UserProfileData }) {
           <Button
             type="submit"
             disabled={submitting}
-            className="w-full h-12 bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.97] transition-all font-semibold rounded-xl shadow-md shadow-primary/20"
+            className="w-full h-12 bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/30 active:scale-[0.96] transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] font-semibold rounded-xl shadow-md shadow-primary/20"
           >
             {submitting ? (
               <>
@@ -197,17 +197,17 @@ function ProfileFormInner({ user }: { user: UserProfileData }) {
         <div className="pt-6 border-t border-border/70 flex items-center justify-between text-xs">
           <Link
             href="/manage-events"
-            className="text-primary font-semibold hover:underline flex items-center gap-1.5"
+            className="text-primary font-semibold hover:text-primary/80 hover:translate-x-0.5 hover:underline flex items-center gap-1.5 transition-all duration-150"
           >
             <CalendarDays className="size-3.5" />
-            <span>Manage My Events</span>
+            <span>Manage Events</span>
           </Link>
           <Link
             href="/joined-events"
-            className="text-primary font-semibold hover:underline flex items-center gap-1.5"
+            className="text-primary font-semibold hover:text-primary/80 hover:translate-x-0.5 hover:underline flex items-center gap-1.5 transition-all duration-150"
           >
             <CalendarCheck className="size-3.5" />
-            <span>View Joined Events</span>
+            <span>Joined Events</span>
           </Link>
         </div>
       </CardContent>

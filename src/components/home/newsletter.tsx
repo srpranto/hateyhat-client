@@ -20,14 +20,14 @@ export function Newsletter() {
     }
 
     setSubscribed(true);
-    toast.success("Thank you for subscribing to our Dhaka community bulletin.");
+    toast.success("Thank you for subscribing. We will keep you updated on upcoming events.");
     setEmail("");
   };
 
   return (
     <section className="py-20 md:py-28 bg-muted/30 border-b border-border/60">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-        <div className="relative overflow-hidden rounded-3xl bg-card border border-primary/25 p-8 sm:p-14 text-center flex flex-col items-center shadow-xl">
+        <div className="relative overflow-hidden rounded-3xl bg-card border border-primary/25 hover:border-primary/45 p-8 sm:p-14 text-center flex flex-col items-center shadow-xl transition-colors duration-300">
           <div className="pointer-events-none absolute -top-24 -right-24 size-64 rounded-full bg-primary/10 blur-2xl" />
           <div className="pointer-events-none absolute -bottom-24 -left-24 size-64 rounded-full bg-primary/10 blur-2xl" />
 
@@ -36,15 +36,15 @@ export function Newsletter() {
           </div>
 
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary mb-3">
-            <span>Weekly Dhaka Civic Dispatch</span>
+            <span>Community Updates</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-foreground mb-3 text-balance">
-            Never miss a community cause in your neighborhood
+            Stay updated on community initiatives near you
           </h2>
 
           <p className="text-sm sm:text-base text-muted-foreground max-w-xl mb-8 text-pretty leading-relaxed">
-            Get curated bi-weekly updates on grassroots winter clothes drives, medical relief camps, and environmental cleanups happening across Dhaka.
+            Receive timely updates about relief distribution, blood drives, and cleanups happening in your part of Dhaka.
           </p>
 
           {subscribed ? (
@@ -69,16 +69,16 @@ export function Newsletter() {
               </div>
               <Button
                 type="submit"
-                className="h-12 px-7 bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.97] transition-all font-semibold rounded-xl shrink-0 shadow-md shadow-primary/20"
+                className="h-12 px-7 bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/30 active:scale-[0.96] transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] font-semibold rounded-xl shrink-0 shadow-md shadow-primary/20"
               >
-                Join Bulletin
+                Subscribe
               </Button>
             </form>
           )}
 
           <div className="flex items-center gap-2 text-xs text-muted-foreground mt-4">
             <ShieldCheck className="size-3.5 text-primary" />
-            <span>Zero spam. Direct civic news only. Unsubscribe at any time.</span>
+            <span>No spam. Unsubscribe at any time.</span>
           </div>
         </div>
       </div>

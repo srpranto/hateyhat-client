@@ -47,10 +47,10 @@ export default async function EventDetailsPage({
       <div className="mb-6">
         <Link
           href="/events"
-          className="inline-flex items-center gap-2 text-xs font-semibold text-muted-foreground hover:text-foreground active:scale-[0.98] transition-all"
+          className="group inline-flex items-center gap-2 text-xs font-semibold text-muted-foreground hover:text-primary active:scale-[0.96] transition-all duration-200 ease-out"
         >
-          <ArrowLeft className="size-3.5 text-primary" />
-          <span>Back to all community initiatives</span>
+          <ArrowLeft className="size-3.5 text-primary group-hover:-translate-x-1 transition-transform duration-200 ease-out" />
+          <span>Back to upcoming events</span>
         </Link>
       </div>
 
@@ -91,7 +91,7 @@ export default async function EventDetailsPage({
 
           <div className="border-t border-b border-border/70 py-8 space-y-4">
             <h2 className="text-xl font-bold font-heading text-foreground">
-              About this community initiative
+              About this event
             </h2>
             <div className="text-muted-foreground text-sm sm:text-base leading-relaxed whitespace-pre-line text-pretty">
               {event.description}
@@ -105,25 +105,25 @@ export default async function EventDetailsPage({
               </div>
               <div>
                 <h3 className="text-sm font-bold font-heading text-foreground">
-                  Volunteer Notice & Ground Logistics
+                  Event Guidelines
                 </h3>
                 <p className="text-xs text-muted-foreground">
-                  Organized by local neighborhood leaders in Dhaka
+                  Organized by local community members
                 </p>
               </div>
             </div>
             <ul className="text-xs text-muted-foreground space-y-2 leading-relaxed">
               <li className="flex items-start gap-2">
                 <span className="text-primary font-bold">•</span>
-                <span>Please arrive 15 minutes before scheduled start for team briefing and volunteer role assignments.</span>
+                <span>Please arrive 10 to 15 minutes before the start time for a brief orientation.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-primary font-bold">•</span>
-                <span>Water, gloves, and relief supplies are arranged at the landmark pickup location.</span>
+                <span>Supplies, gloves, and materials will be provided on site unless specified otherwise.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-primary font-bold">•</span>
-                <span>Dress comfortably for outdoor field activities.</span>
+                <span>Wear comfortable clothing suitable for outdoor volunteer activities.</span>
               </li>
             </ul>
           </div>
@@ -133,13 +133,13 @@ export default async function EventDetailsPage({
           <div className="p-6 rounded-2xl bg-card border border-border/80 shadow-lg space-y-5">
             <div className="space-y-2">
               <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-primary">
-                RSVP (Reserve Your Spot / Confirm Attendance)
+                Volunteer Sign-Up
               </span>
               <h3 className="text-xl font-bold font-heading text-foreground pt-0.5">
-                Confirm Your Spot
+                Join This Event
               </h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                <strong className="text-foreground font-semibold">What is an RSVP?</strong> It is a reservation confirming you will attend. Confirming your spot in advance helps grassroots organizers prepare exact volunteer badges, food packets, drinking water, and field supplies so everyone is accommodated smoothly.
+                Sign up as an attendee or volunteer. Joining helps organizers prepare the right amount of supplies, water, and refreshments.
               </p>
             </div>
 
@@ -157,16 +157,16 @@ export default async function EventDetailsPage({
             <div className="rounded-xl bg-muted/40 p-3.5 border border-border/70 text-[11px] text-muted-foreground leading-relaxed space-y-1">
               <div className="flex items-center gap-1.5 font-semibold text-foreground">
                 <ShieldCheck className="size-3.5 text-primary shrink-0" />
-                <span>Why confirming your attendance matters</span>
+                <span>Why joining in advance helps</span>
               </div>
               <p>
-                Accurate volunteer headcounts eliminate supply shortages and avoid wasted materials, keeping grassroots community actions well-organized and impactful.
+                An accurate headcount prevents supply shortages and helps events run smoothly on the ground.
               </p>
             </div>
 
             <div className="pt-2 border-t border-border/70 flex items-center gap-2 text-[11px] text-muted-foreground">
               <ShieldCheck className="size-4 text-primary shrink-0" />
-              <span>100% Free grassroots initiative. No hidden fees or dues.</span>
+              <span>Free to attend. No fees or charges.</span>
             </div>
           </div>
 

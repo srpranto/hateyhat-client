@@ -16,14 +16,14 @@ export function EmptyState({
   actionHref,
 }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center p-8 sm:p-12 text-center rounded-lg border border-dashed border-border bg-card">
-      <div className="flex items-center justify-center size-12 rounded-full bg-muted text-muted-foreground mb-4">
+    <div className="flex flex-col items-center justify-center p-8 sm:p-14 text-center rounded-2xl border border-dashed border-border/80 bg-card/60 backdrop-blur-xs shadow-xs">
+      <div className="flex items-center justify-center size-14 rounded-2xl bg-muted/80 text-muted-foreground mb-4 shadow-2xs">
         <CalendarX className="size-6" />
       </div>
-      <h3 className="text-lg font-semibold text-foreground mb-1 text-balance">
+      <h3 className="text-lg font-bold font-heading text-foreground mb-1 text-balance">
         {title}
       </h3>
-      <p className="text-sm text-muted-foreground max-w-sm mb-6 text-pretty">
+      <p className="text-sm text-muted-foreground max-w-sm mb-6 text-pretty leading-relaxed">
         {description}
       </p>
       {actionLabel && actionHref && (
@@ -32,7 +32,7 @@ export function EmptyState({
           className={buttonVariants({
             variant: "default",
             className:
-              "bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.96] transition-transform",
+              "h-11 px-6 bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-md hover:shadow-primary/25 active:scale-[0.96] transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] rounded-xl font-semibold text-xs shadow-xs",
           })}
         >
           {actionLabel}

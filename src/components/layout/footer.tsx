@@ -21,12 +21,12 @@ export function Footer() {
                 {SITE_NAME}
               </div>
               <p className="mt-2 text-sm sm:text-base text-muted-foreground max-w-xl text-pretty">
-                {SITE_TAGLINE} — Grassroots civic action connecting neighbours across Dhaka to organize relief drives, cleanups, and local change.
+                {SITE_TAGLINE} — A community platform connecting residents across Dhaka to organize relief drives, cleanups, and local initiatives.
               </p>
             </div>
             <div className="flex items-center gap-3 text-xs text-muted-foreground">
               <span className="inline-block size-2 rounded-full bg-primary animate-pulse" />
-              <span>Active across 8 Dhaka zones</span>
+              <span>Active across Dhaka</span>
             </div>
           </div>
         </div>
@@ -34,27 +34,27 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-14">
           <div>
             <h3 className="text-xs font-bold tracking-wider uppercase text-foreground mb-4">
-              Explore Platform
+              Explore
             </h3>
             <ul className="space-y-2.5 text-xs text-muted-foreground font-medium">
               <li>
-                <Link href="/events" className="hover:text-primary transition-colors">
-                  Upcoming Initiatives
+                <Link href="/events" className="inline-block hover:text-primary hover:translate-x-1 transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]">
+                  Upcoming Events
                 </Link>
               </li>
               <li>
-                <Link href="/create-event" className="hover:text-primary transition-colors">
+                <Link href="/create-event" className="inline-block hover:text-primary hover:translate-x-1 transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]">
                   Host an Event
                 </Link>
               </li>
               <li>
-                <Link href="/joined-events" className="hover:text-primary transition-colors">
-                  Volunteer Timeline
+                <Link href="/joined-events" className="inline-block hover:text-primary hover:translate-x-1 transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]">
+                  Joined Events
                 </Link>
               </li>
               <li>
-                <Link href="/manage-events" className="hover:text-primary transition-colors">
-                  Organizer Portal
+                <Link href="/manage-events" className="inline-block hover:text-primary hover:translate-x-1 transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]">
+                  Manage Events
                 </Link>
               </li>
             </ul>
@@ -65,30 +65,52 @@ export function Footer() {
               Community Hubs
             </h3>
             <ul className="space-y-2.5 text-xs text-muted-foreground font-medium">
-              <li>Mirpur 10 Circle</li>
-              <li>Dhanmondi Lakefront</li>
-              <li>Sadarghat Launch Terminal</li>
-              <li>Karwan Bazar Civic Point</li>
-              <li>Korail Slum Community Hub</li>
+              <li className="hover:text-foreground hover:translate-x-1 transition-all duration-200 cursor-default select-none">
+                Mirpur 10 Circle
+              </li>
+              <li className="hover:text-foreground hover:translate-x-1 transition-all duration-200 cursor-default select-none">
+                Dhanmondi Lakefront
+              </li>
+              <li className="hover:text-foreground hover:translate-x-1 transition-all duration-200 cursor-default select-none">
+                Sadarghat Launch Terminal
+              </li>
+              <li className="hover:text-foreground hover:translate-x-1 transition-all duration-200 cursor-default select-none">
+                Karwan Bazar
+              </li>
+              <li className="hover:text-foreground hover:translate-x-1 transition-all duration-200 cursor-default select-none">
+                Korail Community Center
+              </li>
             </ul>
           </div>
 
           <div>
             <h3 className="text-xs font-bold tracking-wider uppercase text-foreground mb-4">
-              Dhaka Secretariat
+              Contact & Office
             </h3>
             <ul className="space-y-3 text-xs text-muted-foreground">
-              <li className="flex items-start gap-2.5">
+              <li className="flex items-start gap-2.5 group/item">
                 <MapPin className="size-4 shrink-0 text-primary mt-0.5" />
-                <span className="leading-relaxed">House 42, Road 11, Block D, Banani, Dhaka-1213, Bangladesh</span>
+                <span className="leading-relaxed group-hover/item:text-foreground transition-colors duration-200 cursor-default">
+                  House 42, Road 11, Block D, Banani, Dhaka-1213, Bangladesh
+                </span>
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail className="size-4 shrink-0 text-primary" />
-                <span>contact@hateyhat.org</span>
+                <a
+                  href="mailto:contact@hateyhat.org"
+                  className="hover:text-primary transition-colors duration-200"
+                >
+                  contact@hateyhat.org
+                </a>
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone className="size-4 shrink-0 text-primary" />
-                <span>+880 1712-345678</span>
+                <a
+                  href="tel:+8801712345678"
+                  className="hover:text-primary transition-colors duration-200"
+                >
+                  +880 1712-345678
+                </a>
               </li>
             </ul>
           </div>
@@ -105,35 +127,42 @@ export function Footer() {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
+                title="Facebook"
                 aria-label="Facebook"
-                className="flex items-center justify-center size-9 rounded-xl bg-muted/80 hover:text-primary hover:bg-primary/10 transition-colors"
+                className="flex items-center justify-center size-9 rounded-xl bg-muted/80 border border-transparent hover:border-primary/30 hover:text-primary hover:bg-primary/10 hover:shadow-xs hover:scale-105 active:scale-95 transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]"
               >
                 <FacebookLogo className="size-4" />
               </a>
+
               <a
                 href="https://x.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="X"
-                className="flex items-center justify-center size-9 rounded-xl bg-muted/80 hover:text-primary hover:bg-primary/10 transition-colors"
+                title="X (formerly Twitter)"
+                aria-label="X (formerly Twitter)"
+                className="flex items-center justify-center size-9 rounded-xl bg-muted/80 border border-transparent hover:border-primary/30 hover:text-primary hover:bg-primary/10 hover:shadow-xs hover:scale-105 active:scale-95 transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]"
               >
                 <XLogo className="size-4" />
               </a>
+
               <a
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
+                title="Instagram"
                 aria-label="Instagram"
-                className="flex items-center justify-center size-9 rounded-xl bg-muted/80 hover:text-primary hover:bg-primary/10 transition-colors"
+                className="flex items-center justify-center size-9 rounded-xl bg-muted/80 border border-transparent hover:border-primary/30 hover:text-primary hover:bg-primary/10 hover:shadow-xs hover:scale-105 active:scale-95 transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]"
               >
                 <InstagramLogo className="size-4" />
               </a>
+
               <a
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
+                title="LinkedIn"
                 aria-label="LinkedIn"
-                className="flex items-center justify-center size-9 rounded-xl bg-muted/80 hover:text-primary hover:bg-primary/10 transition-colors"
+                className="flex items-center justify-center size-9 rounded-xl bg-muted/80 border border-transparent hover:border-primary/30 hover:text-primary hover:bg-primary/10 hover:shadow-xs hover:scale-105 active:scale-95 transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]"
               >
                 <LinkedInLogo className="size-4" />
               </a>

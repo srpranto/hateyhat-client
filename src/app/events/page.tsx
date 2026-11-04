@@ -7,7 +7,7 @@ import { ErrorState } from "@/components/shared/error-state";
 
 export const metadata: Metadata = {
   title: "Upcoming Events",
-  description: "Browse social development initiatives, winter clothes drives, and cleanups happening soon in Dhaka.",
+  description: "Browse community drives, cleanups, and relief events happening soon across Dhaka.",
 };
 
 export default async function EventsPage() {
@@ -17,9 +17,9 @@ export default async function EventsPage() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="mb-10 max-w-3xl">
         <SectionHeading
-          badge="Community Initiatives"
-          title="Upcoming Social Events"
-          subtitle="Explore grassroots causes organized by residents across Dhaka. Search, filter by cause type, or sort by date to find an initiative to join."
+          badge="Community Drives"
+          title="Upcoming Events"
+          subtitle="Explore community drives organized by residents across Dhaka. Search, filter by category, or find an event to join."
         />
       </div>
 
@@ -30,8 +30,8 @@ export default async function EventsPage() {
         />
       ) : res.data.length === 0 ? (
         <EmptyState
-          title="No upcoming events yet"
-          description="There are currently no upcoming events scheduled. Be the first in your neighborhood to organize one."
+          title="No upcoming events scheduled"
+          description="There are currently no upcoming events scheduled. Create one to get volunteers together in your area."
           actionLabel="Create Event"
           actionHref="/create-event"
         />

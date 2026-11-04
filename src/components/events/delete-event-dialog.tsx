@@ -71,7 +71,7 @@ export function DeleteEventDialog({
           <Button
             variant="outline"
             size="sm"
-            className="flex items-center gap-1.5 text-destructive border-destructive/20 hover:bg-destructive/10 hover:text-destructive active:scale-[0.96] transition-transform text-xs"
+            className="flex items-center gap-1.5 text-destructive border-destructive/20 hover:bg-destructive/10 hover:text-destructive active:scale-[0.96] transition-[background-color,border-color,color,transform] duration-200 ease-out text-xs"
           >
             <Trash2 className="size-3.5" />
             <span>Delete</span>

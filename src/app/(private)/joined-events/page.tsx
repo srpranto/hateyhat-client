@@ -12,9 +12,9 @@ export default function JoinedEventsPage() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div className="mb-8">
         <SectionHeading
-          badge="Volunteer"
-          title="Events You Have Joined"
-          subtitle="All the upcoming community drives, relief programs, and cleanups you signed up to attend."
+          badge="Attending"
+          title="Joined Events"
+          subtitle="Events you have signed up to attend or volunteer with."
         />
       </div>
       <JoinedEventsList />

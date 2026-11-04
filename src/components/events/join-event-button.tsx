@@ -53,7 +53,7 @@ export function JoinEventButton({
   if (!isUpcoming) {
     return (
       <Button disabled variant="outline" className="w-full cursor-not-allowed rounded-xl h-11 px-6 text-xs font-semibold bg-muted/50 text-muted-foreground border-border/80 flex items-center justify-center gap-2">
-        Initiative concluded
+        This event has passed
       </Button>
     );
   }
@@ -66,7 +66,7 @@ export function JoinEventButton({
   const handleCancelRsvp = async () => {
     if (loading || cancelling) return;
     if (!session) {
-      toast.error("Please log in to manage your RSVP.");
+      toast.error("Please log in to manage your attendance.");
       router.push(getLoginRedirectUrl());
       return;
     }
@@ -85,7 +85,7 @@ export function JoinEventButton({
       const res = await cancelJoinEvent(eventId, token);
       if (res.ok) {
         setJoined(false);
-        toast.success("Your RSVP has been cancelled.");
+        toast.success("You have cancelled your attendance.");
         router.refresh();
       } else if (res.status === 401) {
         toast.error(res.message);
@@ -94,7 +94,7 @@ export function JoinEventButton({
         toast.error(res.message);
       }
     } catch {
-      toast.error("Could not cancel RSVP. Please try again.");
+      toast.error("Could not cancel attendance. Please try again.");
     } finally {
       setCancelling(false);
     }
@@ -113,7 +113,7 @@ export function JoinEventButton({
     try {
       const token = await getToken();
       if (!token) {
-        toast.error("Your session has expired or is invalid. Please log in again.");
+        toast.error("Your session has expired. Please log in again.");
         router.push(getLoginRedirectUrl());
         setLoading(false);
         return;
@@ -122,11 +122,11 @@ export function JoinEventButton({
       const res = await joinEvent(eventId, token);
       if (res.ok) {
         setJoined(true);
-        toast.success("Successfully joined the initiative! See you there.");
+        toast.success("You have successfully joined this event.");
         router.refresh();
       } else if (res.status === 409) {
         setJoined(true);
-        toast.info("You have already joined this event.");
+        toast.info("You are already registered for this event.");
       } else if (res.status === 401) {
         toast.error(res.message);
         router.push(getLoginRedirectUrl());
@@ -134,7 +134,7 @@ export function JoinEventButton({
         toast.error(res.message);
       }
     } catch {
-      toast.error("Could not complete join request. Please try again.");
+      toast.error("Could not complete your request. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -145,23 +145,23 @@ export function JoinEventButton({
       <div className="flex flex-col gap-2.5 w-full">
         <div className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-primary/10 border border-primary/20 text-primary text-xs font-semibold">
           <Check className="size-4 text-primary shrink-0" />
-          <span>You are registered to attend</span>
+          <span>You are attending this event</span>
         </div>
         <Button
           variant="outline"
           onClick={handleCancelRsvp}
           disabled={loading || cancelling}
-          className="w-full rounded-xl text-xs h-10 border-destructive/30 text-destructive hover:bg-destructive/10 active:scale-[0.96] transition-[background-color,border-color,color,transform] font-medium flex items-center justify-center gap-1.5"
+          className="w-full rounded-xl text-xs h-10 border-destructive/30 text-destructive hover:bg-destructive/10 active:scale-[0.96] transition-[background-color,border-color,color,transform] duration-200 ease-out font-medium flex items-center justify-center gap-1.5"
         >
           {cancelling ? (
             <>
               <Loader2 className="size-3.5 animate-spin" />
-              <span>Cancelling reservation...</span>
+              <span>Cancelling...</span>
             </>
           ) : (
             <>
               <XCircle className="size-3.5" />
-              <span>Cancel Attendance (RSVP)</span>
+              <span>Cancel Attendance</span>
             </>
           )}
         </Button>
@@ -173,7 +173,7 @@ export function JoinEventButton({
     <Button
       onClick={handleJoin}
       disabled={loading || cancelling}
-      className="w-full bg-primary text-primary-foreground hover:bg-primary/90 active:scale-[0.96] transition-[background-color,box-shadow,transform] font-semibold h-11 px-6 rounded-xl shadow-md shadow-primary/20 flex items-center justify-center gap-2 text-sm"
+      className="w-full bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/30 active:scale-[0.96] transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] font-semibold h-11 px-6 rounded-xl shadow-md shadow-primary/20 flex items-center justify-center gap-2 text-sm"
     >
       {loading ? (
         <>

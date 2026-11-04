@@ -98,7 +98,7 @@ export function RegisterForm() {
       if (typeof window !== "undefined") {
         window.dispatchEvent(new Event("auth-session-change"));
       }
-      toast.success("Welcome to HateyHat! Account registered successfully.");
+      toast.success("Account registered successfully.");
       router.push(redirectUrl);
       router.refresh();
     } catch {
@@ -139,13 +139,13 @@ export function RegisterForm() {
       <CardHeader className="space-y-2 text-center p-6 sm:p-8 bg-muted/30 border-b border-border/70">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary mx-auto">
           <HeartHandshake className="size-3.5" />
-          <span>হাতে হাত • Join HateyHat</span>
+          <span>হাতে হাত • HateyHat</span>
         </div>
         <CardTitle className="text-2xl sm:text-3xl font-extrabold font-heading text-foreground">
           Create an Account
         </CardTitle>
         <CardDescription className="text-muted-foreground text-xs sm:text-sm">
-          Join Dhaka&apos;s community network to organize and volunteer in neighborhood initiatives
+          Sign up to organize and participate in community events across Dhaka
         </CardDescription>
       </CardHeader>
       <CardContent className="p-6 sm:p-8 space-y-5">
@@ -154,7 +154,7 @@ export function RegisterForm() {
           variant="outline"
           onClick={handleGoogleSignIn}
           disabled={googleLoading || loading}
-          className="w-full flex items-center justify-center gap-2.5 h-12 text-sm font-semibold rounded-xl border-border/80 hover:bg-muted active:scale-[0.97] transition-all"
+          className="w-full flex items-center justify-center gap-2.5 h-12 text-sm font-semibold rounded-xl border-border/80 hover:bg-muted hover:border-primary/40 active:scale-[0.96] transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]"
         >
           {googleLoading ? (
             <Loader2 className="size-4 animate-spin" />
@@ -242,7 +242,7 @@ export function RegisterForm() {
                     setPhotoURL(av.url);
                     setErrors((prev) => ({ ...prev, photoURL: undefined }));
                   }}
-                  className="text-[11px] px-2 py-0.5 rounded-md bg-muted/80 hover:bg-primary/10 hover:text-primary border border-border/70 transition-colors cursor-pointer"
+                  className="text-[11px] px-2 py-0.5 rounded-md bg-muted/80 hover:bg-primary/10 hover:text-primary hover:border-primary/40 active:scale-95 border border-border/70 transition-all duration-150 cursor-pointer"
                 >
                   {av.label}
                 </button>
@@ -268,7 +268,7 @@ export function RegisterForm() {
               <button
                 type="button"
                 onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-1 transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground hover:scale-110 active:scale-95 p-1 transition-all cursor-pointer"
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
@@ -279,7 +279,7 @@ export function RegisterForm() {
               <div className="space-y-2 pt-1">
                 <div className="grid grid-cols-3 gap-1.5 h-1.5 w-full">
                   <div
-                    className={`h-full rounded-full transition-all duration-300 ${
+                    className={`h-full rounded-full transition-colors duration-300 ease-out ${
                       criteriaMetCount >= 1
                         ? criteriaMetCount === 1
                           ? "bg-destructive"
@@ -290,7 +290,7 @@ export function RegisterForm() {
                     }`}
                   />
                   <div
-                    className={`h-full rounded-full transition-all duration-300 ${
+                    className={`h-full rounded-full transition-colors duration-300 ease-out ${
                       criteriaMetCount >= 2
                         ? criteriaMetCount === 2
                           ? "bg-amber-500"
@@ -299,7 +299,7 @@ export function RegisterForm() {
                     }`}
                   />
                   <div
-                    className={`h-full rounded-full transition-all duration-300 ${
+                    className={`h-full rounded-full transition-colors duration-300 ease-out ${
                       criteriaMetCount === 3 ? "bg-emerald-500" : "bg-muted"
                     }`}
                   />
@@ -356,9 +356,9 @@ export function RegisterForm() {
           <Button
             type="submit"
             disabled={loading || googleLoading}
-            className="w-full h-12 bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.97] transition-all font-semibold rounded-xl shadow-md shadow-primary/20 text-sm"
+            className="w-full h-12 bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/30 active:scale-[0.96] transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] font-semibold rounded-xl shadow-md shadow-primary/20 text-sm"
           >
-            {loading ? <Loader2 className="size-4 animate-spin mr-2" /> : "Create Volunteer Account"}
+            {loading ? <Loader2 className="size-4 animate-spin mr-2" /> : "Create Account"}
           </Button>
         </form>
       </CardContent>
@@ -371,7 +371,7 @@ export function RegisterForm() {
                 ? `/login?redirect=${encodeURIComponent(redirectUrl)}`
                 : "/login"
             }
-            className="text-primary font-bold hover:underline"
+            className="text-primary font-bold hover:text-primary/80 hover:underline transition-colors duration-150"
           >
             Log in here
           </Link>

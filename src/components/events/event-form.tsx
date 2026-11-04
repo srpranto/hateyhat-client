@@ -107,7 +107,7 @@ export function EventForm({
         <Input
           id="event-title"
           type="text"
-          placeholder="Winter Clothes Distribution at Mirpur"
+          placeholder="e.g. Winter Clothes Distribution at Mirpur 10"
           value={formData.title}
           onChange={(e) =>
             setFormData((prev) => ({ ...prev, title: e.target.value }))
@@ -163,7 +163,7 @@ export function EventForm({
                   variant="outline"
                   disabled={isSubmitting}
                   className={cn(
-                    "w-full justify-start text-left font-normal h-9 px-3",
+                    "w-full justify-start text-left font-normal h-10 rounded-xl px-3 text-sm",
                     !formData.eventDate && "text-muted-foreground",
                     errors.eventDate && "border-destructive focus-visible:ring-destructive"
                   )}
@@ -221,7 +221,7 @@ export function EventForm({
           <Input
             id="event-location"
             type="text"
-            placeholder="Mirpur 10 Circle, Dhaka"
+            placeholder="e.g. Mirpur 10 Circle, Dhaka"
             value={formData.location}
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, location: e.target.value }))
@@ -240,7 +240,7 @@ export function EventForm({
           <Label htmlFor="event-thumbnail" className="text-sm font-medium">
             Thumbnail Image URL
           </Label>
-          <span className="text-[11px] text-muted-foreground">Direct image link (jpg, png, webp)</span>
+          <span className="text-[11px] text-muted-foreground">Direct image URL (JPG, PNG, WebP)</span>
         </div>
         <Input
           id="event-thumbnail"
@@ -284,7 +284,7 @@ export function EventForm({
                 setFormData((prev) => ({ ...prev, thumbnail: preset.url }));
                 setErrors((prev) => ({ ...prev, thumbnail: undefined }));
               }}
-              className="px-2 py-0.5 rounded-md text-[11px] bg-muted/80 hover:bg-primary/10 hover:text-primary border border-border/70 transition-colors cursor-pointer"
+              className="px-2.5 py-1 rounded-md text-[11px] font-medium bg-muted/80 hover:bg-primary/10 hover:text-primary hover:border-primary/40 active:scale-95 border border-border/70 transition-all duration-150 cursor-pointer"
             >
               {preset.label}
             </button>
@@ -292,9 +292,9 @@ export function EventForm({
         </div>
 
         {formData.thumbnail.trim() ? (
-          <div className="rounded-[20px] border border-border/80 overflow-hidden bg-card/60 p-3 space-y-2 mt-3">
+          <div className="rounded-[20px] border border-border/80 overflow-hidden bg-card/60 p-3 space-y-2 mt-3 shadow-xs">
             <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span className="font-semibold text-foreground">Live Thumbnail Preview</span>
+              <span className="font-semibold text-foreground">Thumbnail Preview</span>
               <span className="text-[10px] text-muted-foreground truncate max-w-[240px] tabular-nums">
                 {formData.thumbnail}
               </span>
@@ -302,7 +302,7 @@ export function EventForm({
             <div className="relative rounded-lg overflow-hidden border border-border/60 aspect-video max-h-52 bg-muted/60">
               <EventThumbnail
                 src={normalizeImageUrl(formData.thumbnail)}
-                alt="Live event thumbnail preview"
+                alt="Event thumbnail preview"
                 aspectClassName="aspect-video"
               />
             </div>
@@ -317,7 +317,7 @@ export function EventForm({
         <Textarea
           id="event-description"
           rows={4}
-          placeholder="Describe your initiative, goals, requirements for volunteers, and contact details..."
+          placeholder="Describe the event, volunteer roles, gathering point, and any items volunteers should bring..."
           value={formData.description}
           onChange={(e) =>
             setFormData((prev) => ({ ...prev, description: e.target.value }))
@@ -333,7 +333,7 @@ export function EventForm({
       <Button
         type="submit"
         disabled={isSubmitting}
-        className="w-full h-11 bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.96] transition-transform font-medium"
+        className="w-full h-11 bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-md hover:shadow-primary/25 active:scale-[0.96] transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] font-semibold rounded-xl shadow-xs"
       >
         {isSubmitting ? (
           <>

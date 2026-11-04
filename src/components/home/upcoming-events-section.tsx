@@ -17,18 +17,18 @@ export async function UpcomingEventsSection() {
           <SectionHeading
             badge="Happening Soon"
             title="Recent Upcoming Events"
-            subtitle="The soonest community drives, cleanups, and relief distributions happening across Dhaka."
+            subtitle="Community cleanups, donation drives, and relief efforts happening soon across Dhaka."
           />
           <Link
             href="/events"
             className={buttonVariants({
               variant: "outline",
               className:
-                "shrink-0 h-10 border-border hover:bg-muted active:scale-[0.96] transition-transform flex items-center gap-2",
+                "group shrink-0 h-10 px-4 border-border/80 hover:bg-muted hover:border-primary/40 active:scale-[0.96] transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] flex items-center gap-2 rounded-xl text-xs font-semibold",
             })}
           >
             <span>View all events</span>
-            <ArrowRight className="size-4" />
+            <ArrowRight className="size-4 group-hover:translate-x-1.5 transition-transform duration-200 ease-out" />
           </Link>
         </div>
 
@@ -37,8 +37,8 @@ export async function UpcomingEventsSection() {
         ) : res.data.length === 0 ? (
           <EmptyState
             title="No upcoming events scheduled"
-            description="There are currently no upcoming initiatives on the calendar. Be the first to start a movement in your area."
-            actionLabel="Host an Event"
+            description="There are currently no upcoming events scheduled. Create one to get volunteers together in your area."
+            actionLabel="Create Event"
             actionHref="/create-event"
           />
         ) : (

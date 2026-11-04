@@ -27,7 +27,7 @@ export function CreateEventForm() {
 
       const res = await createEvent(formData, token);
       if (res.ok) {
-        toast.success("Community initiative published successfully!");
+        toast.success("Event created successfully.");
         router.push("/events");
         router.refresh();
       } else if (res.status === 401) {
@@ -49,20 +49,20 @@ export function CreateEventForm() {
         <CardHeader className="space-y-2 p-6 sm:p-8 bg-muted/30 border-b border-border/70">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary w-fit">
             <Sparkles className="size-3.5" />
-            <span>Community Organizer Portal</span>
+            <span>New Event</span>
           </div>
           <CardTitle className="text-2xl sm:text-3xl font-bold font-heading text-foreground">
-            Host a New Community Initiative
+            Create an Event
           </CardTitle>
           <CardDescription className="text-sm text-muted-foreground leading-relaxed">
-            Mobilize fellow citizens, neighbors, and volunteers across Dhaka. Share clear event logistics and pickup landmarks.
+            Fill in the details below to publish your community drive and invite volunteers.
           </CardDescription>
         </CardHeader>
         <CardContent className="p-6 sm:p-8">
           <EventForm
             onSubmit={handleCreate}
             isSubmitting={submitting}
-            submitLabel="Publish Initiative"
+            submitLabel="Create Event"
           />
         </CardContent>
       </Card>
@@ -70,11 +70,11 @@ export function CreateEventForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-5 rounded-2xl bg-muted/40 border border-border/70 text-xs text-muted-foreground">
         <div className="flex items-start gap-2.5">
           <MapPin className="size-4 text-primary shrink-0 mt-0.5" />
-          <span>Specify recognizable Dhaka landmarks (e.g., Rabindra Sarobar, Mirpur 10 roundabout) so volunteers can locate you effortlessly.</span>
+          <span>Use familiar landmarks (such as Mirpur 10 Circle or Rabindra Sarobar) so attendees can find the meeting point easily.</span>
         </div>
         <div className="flex items-start gap-2.5">
           <Users className="size-4 text-primary shrink-0 mt-0.5" />
-          <span>All upcoming initiatives are immediately visible across the Dhaka community calendar for citizens to sign up and volunteer.</span>
+          <span>Once published, your event is immediately listed on the Upcoming Events page for others to discover and join.</span>
         </div>
       </div>
     </div>

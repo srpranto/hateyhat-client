@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { Compass } from "lucide-react";
-import { SITE_NAME } from "@/lib/constants";
 
 export default function NotFound() {
   return (
@@ -13,17 +12,17 @@ export default function NotFound() {
         Page not found
       </h1>
       <p className="text-base sm:text-lg text-muted-foreground max-w-md mb-8">
-        The community page or event you are looking for does not exist or may have been moved.
+        The page you are looking for does not exist or may have been moved.
       </p>
       <Link
         href="/"
         className={buttonVariants({
           variant: "default",
           className:
-            "bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.96] transition-transform",
+            "h-11 px-6 bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-md hover:shadow-primary/25 active:scale-[0.96] transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] rounded-xl font-semibold text-xs shadow-xs",
         })}
       >
-        Back to {SITE_NAME} Home
+        Back to Home
       </Link>
     </div>
   );

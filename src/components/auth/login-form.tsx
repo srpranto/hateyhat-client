@@ -127,13 +127,13 @@ export function LoginForm() {
       <CardHeader className="space-y-2 text-center p-6 sm:p-8 bg-muted/30 border-b border-border/70">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary mx-auto">
           <HeartHandshake className="size-3.5" />
-          <span>হাতে হাত • HateyHat Account</span>
+          <span>হাতে হাত • HateyHat</span>
         </div>
         <CardTitle className="text-2xl sm:text-3xl font-extrabold font-heading text-foreground">
           Welcome Back
         </CardTitle>
         <CardDescription className="text-muted-foreground text-xs sm:text-sm">
-          Sign in to organize and join community causes across Dhaka
+          Sign in to organize or join community events in Dhaka
         </CardDescription>
       </CardHeader>
       <CardContent className="p-6 sm:p-8 space-y-5">
@@ -142,7 +142,7 @@ export function LoginForm() {
           variant="outline"
           onClick={handleGoogleSignIn}
           disabled={googleLoading || loading}
-          className="w-full flex items-center justify-center gap-2.5 h-12 text-sm font-semibold rounded-xl border-border/80 hover:bg-muted active:scale-[0.97] transition-all"
+          className="w-full flex items-center justify-center gap-2.5 h-12 text-sm font-semibold rounded-xl border-border/80 hover:bg-muted hover:border-primary/40 active:scale-[0.96] transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]"
         >
           {googleLoading ? (
             <Loader2 className="size-4 animate-spin" />
@@ -196,7 +196,7 @@ export function LoginForm() {
               <button
                 type="button"
                 onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-1"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground hover:scale-110 active:scale-95 transition-all p-1 cursor-pointer"
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
@@ -210,22 +210,22 @@ export function LoginForm() {
           <Button
             type="submit"
             disabled={loading || googleLoading}
-            className="w-full h-12 bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.97] transition-all font-semibold rounded-xl shadow-md shadow-primary/20 text-sm"
+            className="w-full h-12 bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/30 active:scale-[0.96] transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] font-semibold rounded-xl shadow-md shadow-primary/20 text-sm"
           >
-            {loading ? <Loader2 className="size-4 animate-spin mr-2" /> : "Sign In to HateyHat"}
+            {loading ? <Loader2 className="size-4 animate-spin mr-2" /> : "Sign In"}
           </Button>
         </form>
       </CardContent>
       <CardFooter className="justify-center border-t border-border/70 p-5 bg-muted/20">
         <p className="text-xs text-muted-foreground">
-          Don&apos;t have an account yet?{" "}
+          Don&apos;t have an account?{" "}
           <Link
             href={
               redirectUrl && redirectUrl !== "/"
                 ? `/register?redirect=${encodeURIComponent(redirectUrl)}`
                 : "/register"
             }
-            className="text-primary font-bold hover:underline"
+            className="text-primary font-bold hover:text-primary/80 hover:underline transition-colors duration-150"
           >
             Register here
           </Link>

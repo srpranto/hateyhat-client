@@ -12,11 +12,11 @@ export function Hero() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           <div className="lg:col-span-7 flex flex-col items-start text-left space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium border border-primary/25 bg-primary/10 text-foreground backdrop-blur-xs">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium border border-primary/25 bg-primary/10 text-foreground backdrop-blur-xs hover:border-primary/45 hover:bg-primary/15 hover:shadow-xs transition-all duration-300 ease-out cursor-default">
               <span className="size-2 rounded-full bg-primary animate-pulse" />
               <span className="font-semibold text-primary">হাতে হাত • HateyHat</span>
               <span className="text-muted-foreground">|</span>
-              <span>Civic Action Across Dhaka</span>
+              <span>Community Action Across Dhaka</span>
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-foreground font-heading text-balance leading-[1.1]">
@@ -35,11 +35,11 @@ export function Hero() {
                   variant: "default",
                   size: "lg",
                   className:
-                    "h-12 px-7 bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.97] transition-all font-semibold text-sm shadow-md shadow-primary/20 flex items-center justify-center gap-2 rounded-xl",
+                    "h-12 px-7 bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.96] transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] font-semibold text-sm shadow-md shadow-primary/20 flex items-center justify-center gap-2 rounded-xl group",
                 })}
               >
                 <span>Explore upcoming events</span>
-                <ArrowRight className="size-4" />
+                <ArrowRight className="size-4 group-hover:translate-x-1.5 transition-transform duration-200 ease-out" />
               </Link>
               <Link
                 href="/create-event"
@@ -47,7 +47,7 @@ export function Hero() {
                   variant: "outline",
                   size: "lg",
                   className:
-                    "h-12 px-7 border-border/80 bg-card/60 backdrop-blur-xs hover:bg-muted active:scale-[0.97] transition-all font-semibold text-sm flex items-center justify-center gap-2 rounded-xl",
+                    "h-12 px-7 border-border/80 bg-card/60 backdrop-blur-xs hover:bg-muted hover:border-primary/40 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.96] transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] font-semibold text-sm flex items-center justify-center gap-2 rounded-xl",
                 })}
               >
                 <CalendarPlus className="size-4 text-primary" />
@@ -55,32 +55,32 @@ export function Hero() {
               </Link>
             </div>
 
-            <div className="grid grid-cols-3 gap-4 pt-4 border-t border-border/60 w-full max-w-lg">
-              <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                  <HeartHandshake className="size-4" />
+            <div className="grid grid-cols-3 gap-2 sm:gap-3 pt-4 border-t border-border/60 w-full max-w-lg">
+              <div className="flex items-center gap-2 sm:gap-2.5 p-1.5 sm:p-2 rounded-xl hover:bg-card/80 hover:shadow-xs border border-transparent hover:border-border/60 transition-all duration-200 cursor-default select-none group/stat min-w-0">
+                <div className="p-1.5 sm:p-2 rounded-lg bg-primary/10 text-primary group-hover/stat:bg-primary/20 group-hover/stat:scale-105 transition-all duration-200 shrink-0">
+                  <HeartHandshake className="size-3.5 sm:size-4" />
                 </div>
-                <div>
-                  <div className="text-xs font-bold text-foreground font-heading tabular-nums">100% Grassroots</div>
-                  <div className="text-[11px] text-muted-foreground">Citizen-led drives</div>
-                </div>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                  <MapPin className="size-4" />
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-foreground font-heading">All Dhaka Zones</div>
-                  <div className="text-[11px] text-muted-foreground">North & South</div>
+                <div className="min-w-0">
+                  <div className="text-[11px] sm:text-xs font-bold text-foreground font-heading truncate">Volunteer-Led</div>
+                  <div className="text-[10px] sm:text-[11px] text-muted-foreground truncate">Community drives</div>
                 </div>
               </div>
-              <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                  <Users className="size-4" />
+              <div className="flex items-center gap-2 sm:gap-2.5 p-1.5 sm:p-2 rounded-xl hover:bg-card/80 hover:shadow-xs border border-transparent hover:border-border/60 transition-all duration-200 cursor-default select-none group/stat min-w-0">
+                <div className="p-1.5 sm:p-2 rounded-lg bg-primary/10 text-primary group-hover/stat:bg-primary/20 group-hover/stat:scale-105 transition-all duration-200 shrink-0">
+                  <MapPin className="size-3.5 sm:size-4" />
                 </div>
-                <div>
-                  <div className="text-xs font-bold text-foreground font-heading">Direct Impact</div>
-                  <div className="text-[11px] text-muted-foreground">Zero red tape</div>
+                <div className="min-w-0">
+                  <div className="text-[11px] sm:text-xs font-bold text-foreground font-heading truncate">Across Dhaka</div>
+                  <div className="text-[10px] sm:text-[11px] text-muted-foreground truncate">Neighbourhoods</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 sm:gap-2.5 p-1.5 sm:p-2 rounded-xl hover:bg-card/80 hover:shadow-xs border border-transparent hover:border-border/60 transition-all duration-200 cursor-default select-none group/stat min-w-0">
+                <div className="p-1.5 sm:p-2 rounded-lg bg-primary/10 text-primary group-hover/stat:bg-primary/20 group-hover/stat:scale-105 transition-all duration-200 shrink-0">
+                  <Users className="size-3.5 sm:size-4" />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-[11px] sm:text-xs font-bold text-foreground font-heading truncate">Open to All</div>
+                  <div className="text-[10px] sm:text-[11px] text-muted-foreground truncate">Free participation</div>
                 </div>
               </div>
             </div>
@@ -94,24 +94,24 @@ export function Hero() {
                 fill
                 preload
                 sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                className="object-cover transition-[filter,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03] group-hover:brightness-[1.02]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-              <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-card/90 backdrop-blur-md border border-border/80 shadow-lg flex items-center justify-between gap-3">
+              <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-card/90 backdrop-blur-md border border-border/80 shadow-lg hover:border-primary/40 hover:shadow-xl transition-all duration-300 ease-out flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3 truncate">
                   <div className="size-9 rounded-lg bg-primary/20 text-primary flex items-center justify-center shrink-0">
                     <Sparkles className="size-4" />
                   </div>
                   <div className="truncate text-left">
-                    <p className="text-xs font-semibold text-foreground truncate">Active Community Hub</p>
-                    <p className="text-[11px] text-muted-foreground truncate">Join neighborhood drives this week</p>
+                    <p className="text-xs font-semibold text-foreground truncate">Upcoming Events</p>
+                    <p className="text-[11px] text-muted-foreground truncate">Join local community drives this week</p>
                   </div>
                 </div>
                 <Link
                   href="/events"
-                  className="shrink-0 text-xs font-semibold text-primary hover:underline"
+                  className="shrink-0 text-xs font-semibold text-primary hover:text-primary/80 hover:translate-x-1 active:scale-95 transition-all duration-200 ease-out"
                 >
-                  View drives →
+                  View events →
                 </Link>
               </div>
             </div>

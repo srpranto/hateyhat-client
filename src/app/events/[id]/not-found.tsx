@@ -19,7 +19,7 @@ export default function EventNotFound() {
         className={buttonVariants({
           variant: "default",
           className:
-            "bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.96] transition-transform",
+            "h-11 px-6 bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-md hover:shadow-primary/25 active:scale-[0.96] transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] rounded-xl font-semibold text-xs shadow-xs",
         })}
       >
         Back to Upcoming Events

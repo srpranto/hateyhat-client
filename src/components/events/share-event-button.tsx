@@ -15,11 +15,11 @@ export function ShareEventButton({ title }: { title: string }) {
           try {
             await navigator.share({
               title,
-              text: `Join the community initiative: "${title}" on HateyHat`,
+              text: `Join "${title}" on HateyHat`,
               url: window.location.href,
             });
             setCopied(true);
-            toast.success("Shared successfully!");
+            toast.success("Shared successfully.");
             setTimeout(() => setCopied(false), 2000);
             return;
           } catch {
@@ -27,11 +27,11 @@ export function ShareEventButton({ title }: { title: string }) {
         }
         await navigator.clipboard.writeText(window.location.href);
         setCopied(true);
-        toast.success(`Link to "${title}" copied to clipboard.`);
+        toast.success("Link copied to clipboard.");
         setTimeout(() => setCopied(false), 2000);
       }
     } catch {
-      toast.error("Could not copy link to clipboard.");
+      toast.error("Could not copy link.");
     }
   };
 
@@ -40,7 +40,8 @@ export function ShareEventButton({ title }: { title: string }) {
       variant="outline"
       size="sm"
       onClick={handleShare}
-      className="w-full rounded-xl text-xs font-semibold h-10 border-border text-foreground hover:bg-muted active:scale-[0.97] transition-all flex items-center justify-center gap-2"
+      title="Share initiative or copy link to clipboard"
+      className="w-full rounded-xl text-xs font-semibold h-10 border-border/80 text-foreground hover:bg-muted hover:border-primary/40 active:scale-[0.96] transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] flex items-center justify-center gap-2"
     >
       {copied ? (
         <>
@@ -50,7 +51,7 @@ export function ShareEventButton({ title }: { title: string }) {
       ) : (
         <>
           <Share2 className="size-3.5" />
-          <span>Share Initiative</span>
+          <span>Share Event</span>
         </>
       )}
     </Button>

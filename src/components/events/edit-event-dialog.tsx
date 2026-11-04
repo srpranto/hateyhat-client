@@ -74,7 +74,7 @@ export function EditEventDialog({ event, onUpdated }: EditEventDialogProps) {
           <Button
             variant="outline"
             size="sm"
-            className="flex items-center gap-1.5 active:scale-[0.96] transition-transform text-xs"
+            className="flex items-center gap-1.5 active:scale-[0.96] transition-[background-color,border-color,color,transform] duration-200 ease-out text-xs"
           >
             <Pencil className="size-3.5" />
             <span>Edit</span>
@@ -87,7 +87,7 @@ export function EditEventDialog({ event, onUpdated }: EditEventDialogProps) {
             Edit Event
           </DialogTitle>
           <DialogDescription className="text-xs text-muted-foreground">
-            Update the event details below. You cannot change past event dates to prior dates.
+            Make changes to your event details below. The event date must remain in the future.
           </DialogDescription>
         </DialogHeader>
         <div className="mt-4">

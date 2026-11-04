@@ -17,6 +17,13 @@ import { Search, X, SlidersHorizontal, RotateCcw } from "lucide-react";
 
 type SortOption = "date-asc" | "date-desc" | "title-asc" | "title-desc";
 
+const SORT_LABELS: Record<SortOption, string> = {
+  "date-asc": "Date: Soonest First",
+  "date-desc": "Date: Latest First",
+  "title-asc": "Title: A to Z",
+  "title-desc": "Title: Z to A",
+};
+
 interface EventsExplorerProps {
   initialEvents: EventItem[];
 }
@@ -86,7 +93,7 @@ export function EventsExplorer({ initialEvents }: EventsExplorerProps) {
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
             <Input
               type="text"
-              placeholder="Search initiatives by title, neighborhood or keywords..."
+              placeholder="Search by title, location, or keyword..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10 pr-9 h-11 bg-background border-border rounded-xl text-sm"
@@ -95,7 +102,7 @@ export function EventsExplorer({ initialEvents }: EventsExplorerProps) {
               <button
                 type="button"
                 onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground hover:scale-110 active:scale-90 transition-all p-1 cursor-pointer"
                 aria-label="Clear search"
               >
                 <X className="size-4" />
@@ -103,7 +110,7 @@ export function EventsExplorer({ initialEvents }: EventsExplorerProps) {
             )}
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 w-full md:w-auto">
             <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground shrink-0">
               <SlidersHorizontal className="size-3.5" />
               <span>Sort:</span>
@@ -121,8 +128,10 @@ export function EventsExplorer({ initialEvents }: EventsExplorerProps) {
                 }
               }}
             >
-              <SelectTrigger className="w-[180px] h-11 bg-background border-border rounded-xl text-xs font-medium">
-                <SelectValue placeholder="Sort events" />
+              <SelectTrigger className="flex-1 md:w-[190px] h-11 bg-background border-border rounded-xl text-xs font-medium">
+                <SelectValue placeholder="Sort events">
+                  {SORT_LABELS[sortBy]}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent className="rounded-xl border-border bg-card">
                 <SelectItem value="date-asc">Date: Soonest First</SelectItem>
@@ -137,7 +146,7 @@ export function EventsExplorer({ initialEvents }: EventsExplorerProps) {
                 variant="outline"
                 size="sm"
                 onClick={handleResetFilters}
-                className="h-11 px-3 border-border rounded-xl text-xs flex items-center gap-1.5 shrink-0"
+                className="h-11 px-3 border-border rounded-xl text-xs flex items-center gap-1.5 shrink-0 hover:border-primary/40 active:scale-[0.96] transition-all"
               >
                 <RotateCcw className="size-3.5" />
                 <span className="hidden sm:inline">Reset</span>
@@ -150,15 +159,15 @@ export function EventsExplorer({ initialEvents }: EventsExplorerProps) {
           <button
             type="button"
             onClick={() => setSelectedCategory("ALL")}
-            className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-[background-color,color,box-shadow] cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary ${
+            className={`shrink-0 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.96] cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary ${
               selectedCategory === "ALL"
-                ? "bg-primary text-primary-foreground shadow-xs font-semibold"
+                ? "bg-primary text-primary-foreground shadow-sm shadow-primary/25 font-semibold ring-1 ring-primary/40"
                 : "bg-muted/70 text-muted-foreground hover:text-foreground hover:bg-muted"
             }`}
           >
-            <span>All Causes</span>
+            <span>All Categories</span>
             <span
-              className={`text-[10px] px-1.5 py-0.2 rounded-full tabular-nums ${
+              className={`text-[10px] px-1.5 py-0.2 rounded-full tabular-nums transition-colors duration-200 ease-out ${
                 selectedCategory === "ALL"
                   ? "bg-primary-foreground/20 text-primary-foreground"
                   : "bg-background text-muted-foreground"
@@ -176,16 +185,16 @@ export function EventsExplorer({ initialEvents }: EventsExplorerProps) {
                 type="button"
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-[background-color,color,box-shadow] cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary ${
+                className={`shrink-0 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.96] cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary ${
                   isSelected
-                    ? "bg-primary text-primary-foreground shadow-xs font-semibold"
+                    ? "bg-primary text-primary-foreground shadow-sm shadow-primary/25 font-semibold ring-1 ring-primary/40"
                     : "bg-muted/70 text-muted-foreground hover:text-foreground hover:bg-muted"
                 }`}
               >
                 <span>{cat}</span>
                 {count > 0 && (
                   <span
-                    className={`text-[10px] px-1.5 py-0.2 rounded-full tabular-nums ${
+                    className={`text-[10px] px-1.5 py-0.2 rounded-full tabular-nums transition-colors duration-200 ease-out ${
                       isSelected
                         ? "bg-primary-foreground/20 text-primary-foreground"
                         : "bg-background text-muted-foreground"
@@ -206,15 +215,15 @@ export function EventsExplorer({ initialEvents }: EventsExplorerProps) {
           <strong className="font-semibold text-foreground tabular-nums">{filteredEvents.length}</strong>
           <span> of </span>
           <strong className="font-semibold text-foreground tabular-nums">{initialEvents.length}</strong>
-          <span> initiatives</span>
+          <span> events</span>
         </div>
         {hasActiveFilters && (
           <button
             type="button"
             onClick={handleResetFilters}
-            className="text-primary hover:underline font-medium"
+            className="text-primary hover:text-primary/80 hover:underline font-semibold transition-colors duration-150 cursor-pointer"
           >
-            Clear active filters
+            Clear filters
           </button>
         )}
       </div>
@@ -225,10 +234,10 @@ export function EventsExplorer({ initialEvents }: EventsExplorerProps) {
             <Search className="size-6" />
           </div>
           <h3 className="text-lg font-bold font-heading text-foreground mb-1">
-            No initiatives found
+            No events found
           </h3>
           <p className="text-sm text-muted-foreground max-w-md mb-6 leading-relaxed">
-            We couldn&apos;t find any initiatives matching your current search or category filter. Try refining your keywords or resetting filters.
+            No events match your current search or category filter. Try refining your keywords or resetting your filters.
           </p>
           <Button
             variant="outline"

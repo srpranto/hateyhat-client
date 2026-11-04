@@ -8,7 +8,7 @@ export function EventGridSkeleton({ count = 6 }: { count?: number }) {
       {items.map((key) => (
         <div
           key={key}
-          className="flex flex-col h-full rounded-lg border border-border bg-card overflow-hidden shadow-xs"
+          className="flex flex-col h-full rounded-2xl border border-border/80 bg-card overflow-hidden shadow-xs"
         >
           <Skeleton className="w-full aspect-video" />
           <div className="flex flex-col flex-1 p-5 space-y-4">
@@ -21,9 +21,9 @@ export function EventGridSkeleton({ count = 6 }: { count?: number }) {
               <Skeleton className="h-4 w-full" />
               <Skeleton className="h-4 w-5/6" />
             </div>
-            <div className="mt-auto pt-4 border-t border-border flex items-center justify-between">
+            <div className="mt-auto pt-4 border-t border-border/70 flex items-center justify-between">
               <Skeleton className="h-4 w-28" />
-              <Skeleton className="h-8 w-24 rounded-md" />
+              <Skeleton className="h-9 w-24 rounded-lg" />
             </div>
           </div>
         </div>

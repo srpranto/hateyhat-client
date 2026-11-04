@@ -21,11 +21,15 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [systemPrefersDark, setSystemPrefersDark] = useState<boolean>(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved === "light" || saved === "dark" || saved === "system") {
-      queueMicrotask(() => {
-        setThemeState(saved);
-      });
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved === "light" || saved === "dark" || saved === "system") {
+        queueMicrotask(() => {
+          setThemeState(saved);
+        });
+      }
+    } catch {
+      // ignore
     }
     const media = window.matchMedia("(prefers-color-scheme: dark)");
     queueMicrotask(() => {
@@ -51,8 +55,50 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, [isDark]);
 
   const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
-    localStorage.setItem(STORAGE_KEY, newTheme);
+    const applyTheme = () => {
+      setThemeState(newTheme);
+      try {
+        localStorage.setItem(STORAGE_KEY, newTheme);
+      } catch {
+        // ignore localStorage access issues in sandbox/private modes
+      }
+      const root = document.documentElement;
+      const targetIsDark = newTheme === "dark" || (newTheme === "system" && systemPrefersDark);
+      if (targetIsDark) {
+        root.classList.add("dark");
+      } else {
+        root.classList.remove("dark");
+      }
+    };
+
+    if (typeof document === "undefined") {
+      applyTheme();
+      return;
+    }
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Use native View Transitions API if supported and motion is allowed
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const doc = document as any;
+    if (!prefersReducedMotion && typeof doc.startViewTransition === "function") {
+      doc.startViewTransition(() => {
+        applyTheme();
+      });
+      return;
+    }
+
+    // Fallback: apply temporary theme-transitioning class for coordinated CSS transitions
+    if (!prefersReducedMotion) {
+      document.documentElement.classList.add("theme-transitioning");
+      applyTheme();
+      window.setTimeout(() => {
+        document.documentElement.classList.remove("theme-transitioning");
+      }, 300);
+      return;
+    }
+
+    applyTheme();
   };
 
   const toggleTheme = () => {

@@ -12,9 +12,9 @@ export default function ManageEventsPage() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div className="max-w-4xl mx-auto mb-8">
         <SectionHeading
-          badge="Organizer"
-          title="Manage Your Events"
-          subtitle="Keep your event details accurate, update volunteer requirements, or manage cancellations."
+          badge="My Events"
+          title="Manage Events"
+          subtitle="Review, update, or remove the events you have created."
         />
       </div>
       <div className="max-w-4xl mx-auto">
