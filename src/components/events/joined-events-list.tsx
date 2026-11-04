@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getToken } from "@/lib/get-token";
@@ -23,7 +23,7 @@ export function JoinedEventsList() {
   const [cancellingId, setCancellingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchJoined = async () => {
+  const fetchJoined = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -49,11 +49,11 @@ export function JoinedEventsList() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [router]);
 
   useEffect(() => {
     let ignore = false;
-    const loadJoined = async () => {
+    const init = async () => {
       try {
         const token = await getToken();
         if (ignore) return;
@@ -83,7 +83,7 @@ export function JoinedEventsList() {
       }
     };
 
-    loadJoined();
+    void init();
     return () => {
       ignore = true;
     };

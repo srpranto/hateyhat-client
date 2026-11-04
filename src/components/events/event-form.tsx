@@ -292,7 +292,7 @@ export function EventForm({
         </div>
 
         {formData.thumbnail.trim() ? (
-          <div className="rounded-xl border border-border/80 overflow-hidden bg-card/60 p-3 space-y-2 mt-3">
+          <div className="rounded-[20px] border border-border/80 overflow-hidden bg-card/60 p-3 space-y-2 mt-3">
             <div className="flex items-center justify-between text-xs text-muted-foreground">
               <span className="font-semibold text-foreground">Live Thumbnail Preview</span>
               <span className="text-[10px] text-muted-foreground truncate max-w-[240px] tabular-nums">

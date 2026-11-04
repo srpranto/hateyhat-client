@@ -55,11 +55,11 @@ export function Features() {
             return (
               <div
                 key={feature.title}
-                className="group relative flex flex-col justify-between p-7 rounded-2xl border border-border/80 bg-card hover:border-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                className="group relative flex flex-col justify-between p-7 rounded-2xl border border-border/80 bg-card hover:border-primary/50 hover:shadow-xl hover:-translate-y-1 transition-[border-color,box-shadow,transform] duration-300"
               >
                 <div>
                   <div className="flex items-center justify-between mb-5">
-                    <div className="flex items-center justify-center size-12 rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110 transition-all duration-300 shadow-xs">
+                    <div className="flex items-center justify-center size-12 rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110 transition-[background-color,color,transform] duration-300 shadow-xs">
                       <Icon className="size-5" />
                     </div>
                     <span className="text-2xl font-black font-heading text-muted-foreground/30 tabular-nums group-hover:text-primary/40 transition-colors">

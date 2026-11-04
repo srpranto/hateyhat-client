@@ -61,7 +61,7 @@ export function Hero() {
                   <HeartHandshake className="size-4" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-foreground font-heading">100% Grassroots</div>
+                  <div className="text-xs font-bold text-foreground font-heading tabular-nums">100% Grassroots</div>
                   <div className="text-[11px] text-muted-foreground">Citizen-led drives</div>
                 </div>
               </div>

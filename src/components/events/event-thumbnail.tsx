@@ -50,7 +50,7 @@ export function EventThumbnail({
   }
 
   return (
-    <div className={`relative w-full ${aspectClassName} overflow-hidden bg-muted ${className}`}>
+    <div className={`relative w-full ${aspectClassName} overflow-hidden bg-muted after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:ring-1 after:ring-inset after:ring-black/10 dark:after:ring-white/10 ${className}`}>
       <Image
         src={normalizedSrc}
         alt={alt}

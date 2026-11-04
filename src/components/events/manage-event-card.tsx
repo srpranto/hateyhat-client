@@ -24,7 +24,7 @@ export function ManageEventCard({
   const formattedDate = formatEventDate(event.eventDate);
 
   return (
-    <div className="flex flex-col sm:flex-row gap-5 p-5 rounded-xl border border-border/80 bg-card shadow-xs hover:border-primary/30 transition-all duration-200">
+    <div className="flex flex-col sm:flex-row gap-5 p-5 rounded-xl border border-border/80 bg-card shadow-xs hover:border-primary/30 transition-[border-color,box-shadow] duration-200">
       <div className="sm:w-52 aspect-16/10 rounded-lg overflow-hidden shrink-0 border border-border/50">
         <EventThumbnail
           src={event.thumbnail}

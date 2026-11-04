@@ -10,7 +10,7 @@ export function EventCard({ event }: { event: EventItem }) {
   const formattedDate = formatEventDate(event.eventDate);
 
   return (
-    <article className="group flex flex-col h-full rounded-2xl border border-border/80 bg-card overflow-hidden shadow-xs hover:border-primary/50 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300">
+    <article className="group flex flex-col h-full rounded-2xl border border-border/80 bg-card overflow-hidden shadow-xs hover:border-primary/50 hover:shadow-xl hover:-translate-y-1.5 transition-[border-color,box-shadow,transform] duration-300">
       <div className="relative">
         <EventThumbnail src={event.thumbnail} alt={event.title} />
         <div className="absolute top-3 left-3">
@@ -49,7 +49,7 @@ export function EventCard({ event }: { event: EventItem }) {
               variant: "default",
               size: "sm",
               className:
-                "h-9 px-3.5 bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.97] transition-all text-xs font-semibold rounded-lg shadow-xs flex items-center gap-1.5 shrink-0",
+                "h-9 px-3.5 bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.96] transition-[opacity,transform] text-xs font-semibold rounded-lg shadow-xs flex items-center gap-1.5 shrink-0",
             })}
           >
             <span>View Event</span>

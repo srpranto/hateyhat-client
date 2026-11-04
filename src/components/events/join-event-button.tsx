@@ -36,8 +36,8 @@ export function JoinEventButton({
         const token = await getToken();
         if (!token || ignore) return;
         const res = await getJoinedEvents(token);
-        if (!ignore && res.ok && res.data.some((item) => item._id === eventId)) {
-          setJoined(true);
+        if (!ignore && res.ok) {
+          setJoined(res.data.some((item) => item._id === eventId));
         }
       } catch {
       }
@@ -151,7 +151,7 @@ export function JoinEventButton({
           variant="outline"
           onClick={handleCancelRsvp}
           disabled={loading || cancelling}
-          className="w-full rounded-xl text-xs h-10 border-destructive/30 text-destructive hover:bg-destructive/10 active:scale-[0.98] transition-all font-medium flex items-center justify-center gap-1.5"
+          className="w-full rounded-xl text-xs h-10 border-destructive/30 text-destructive hover:bg-destructive/10 active:scale-[0.96] transition-[background-color,border-color,color,transform] font-medium flex items-center justify-center gap-1.5"
         >
           {cancelling ? (
             <>
@@ -173,7 +173,7 @@ export function JoinEventButton({
     <Button
       onClick={handleJoin}
       disabled={loading || cancelling}
-      className="w-full bg-primary text-primary-foreground hover:bg-primary/90 active:scale-[0.98] transition-all font-semibold h-11 px-6 rounded-xl shadow-md shadow-primary/20 flex items-center justify-center gap-2 text-sm"
+      className="w-full bg-primary text-primary-foreground hover:bg-primary/90 active:scale-[0.96] transition-[background-color,box-shadow,transform] font-semibold h-11 px-6 rounded-xl shadow-md shadow-primary/20 flex items-center justify-center gap-2 text-sm"
     >
       {loading ? (
         <>

@@ -38,14 +38,12 @@ export function Navbar() {
     if (typeof window !== "undefined") {
       window.addEventListener("auth-session-change", handleAuthUpdate);
       window.addEventListener("storage", handleAuthUpdate);
-      window.addEventListener("focus", handleAuthUpdate);
     }
     return () => {
       if (timer) clearTimeout(timer);
       if (typeof window !== "undefined") {
         window.removeEventListener("auth-session-change", handleAuthUpdate);
         window.removeEventListener("storage", handleAuthUpdate);
-        window.removeEventListener("focus", handleAuthUpdate);
       }
     };
   }, [refetch, router]);
@@ -173,7 +171,7 @@ export function Navbar() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="size-9 active:scale-[0.96] transition-transform rounded-lg"
+                  className="size-10 min-w-10 min-h-10 active:scale-[0.96] transition-transform rounded-lg"
                   aria-label="Open menu"
                 >
                   <Menu className="size-5" />

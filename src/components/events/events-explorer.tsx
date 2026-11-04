@@ -150,7 +150,7 @@ export function EventsExplorer({ initialEvents }: EventsExplorerProps) {
           <button
             type="button"
             onClick={() => setSelectedCategory("ALL")}
-            className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
+            className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-[background-color,color,box-shadow] cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary ${
               selectedCategory === "ALL"
                 ? "bg-primary text-primary-foreground shadow-xs font-semibold"
                 : "bg-muted/70 text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -176,7 +176,7 @@ export function EventsExplorer({ initialEvents }: EventsExplorerProps) {
                 type="button"
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
+                className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-[background-color,color,box-shadow] cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary ${
                   isSelected
                     ? "bg-primary text-primary-foreground shadow-xs font-semibold"
                     : "bg-muted/70 text-muted-foreground hover:text-foreground hover:bg-muted"

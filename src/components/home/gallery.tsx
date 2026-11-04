@@ -84,7 +84,7 @@ export function Gallery() {
               type="button"
               key={item.src}
               onClick={() => setSelectedItem(item)}
-              className="group text-left flex flex-col rounded-2xl overflow-hidden border border-border/80 bg-card shadow-xs hover:border-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+              className="group text-left flex flex-col rounded-2xl overflow-hidden border border-border/80 bg-card shadow-xs hover:border-primary/50 hover:shadow-xl hover:-translate-y-1 transition-[border-color,box-shadow,transform] duration-300 cursor-pointer"
             >
               <div className="relative aspect-4/3 w-full overflow-hidden bg-muted">
                 <Image

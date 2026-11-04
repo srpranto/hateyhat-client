@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getToken } from "@/lib/get-token";
@@ -19,7 +19,7 @@ export function ManageEventsList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchMyEvents = async () => {
+  const fetchMyEvents = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -45,11 +45,11 @@ export function ManageEventsList() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [router]);
 
   useEffect(() => {
     let ignore = false;
-    const loadEvents = async () => {
+    const init = async () => {
       try {
         const token = await getToken();
         if (ignore) return;
@@ -79,7 +79,7 @@ export function ManageEventsList() {
       }
     };
 
-    loadEvents();
+    void init();
     return () => {
       ignore = true;
     };
